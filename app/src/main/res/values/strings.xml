@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">SUM</string>
+    <string name="login">Login</string>
+    <string name="password">password</string>
+    <string name="username">username</string>
+    <string name="icon">icon</string>
+    <string name="register">Register</string>
+    <string name="update">Update</string>
+    <string name="done">update</string>
+    <string name="title_activity_statistics">StatisticsActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Login">Login</string>
+    <string name="imageUpdate">Image Update</string>
+
+
+
+
+
+    <string name="upload_image">UPLOAD IMAGE</string>
+    <string name="read_file">This app needs access to your file storage so that it can read photos.</string>
+
+
+
+</resources>

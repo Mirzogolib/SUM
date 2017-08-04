@@ -1,0 +1,130 @@
+package inducesmile.com.suumme.activity.company;
+
+
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.List;
+
+import inducesmile.com.suumme.ObjectClasses.ResultsProd;
+import inducesmile.com.suumme.R;
+import inducesmile.com.suumme.Service.APIService;
+import inducesmile.com.suumme.adapter.DataAdapter;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+
+public class CompanyProductList extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    APIService apiService;
+    String token;
+    TextView productName, productPrice;
+    String TAG = "test";
+    RecyclerView listProductShop;
+    DataAdapter adapter;
+    List<ResultsProd> resultsProds;
+
+    public static CompanyProductList newInstance(String token) {
+
+
+        CompanyProductList companyProductList = new CompanyProductList();
+        Bundle args = new Bundle();
+        args.putString("token", token);
+        companyProductList.setArguments(args);
+
+        return companyProductList;
+    }
+
+
+    @Override
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_company_product_list, container, false);
+        apiService = new APIService();
+        token = getArguments().getString("token");
+        productName = (TextView) view.findViewById(R.id.product_name);
+        productPrice = (TextView) view.findViewById(R.id.product_price);
+        listProductShop = (RecyclerView) view.findViewById(R.id.listProductShop);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeView);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        listProductShop.setLayoutManager(layoutManager);
+
+
+        apiService.getProduct(token).enqueue(new Callback<List<ResultsProd>>() {
+            @Override
+            public void onResponse(Call<List<ResultsProd>> call, Response<List<ResultsProd>> response) {
+                Log.d(TAG, "Success in geting product");
+
+
+//                productName.setText(response.body().getResults().get(0).getNameOfProduct());
+//                productPrice.setText(response.body().getResults().get(0).getPrice()+" Sum");
+
+
+
+
+
+
+
+
+//                for (int i = 0 ; i < response.body().size(); i++){
+//                    resultsProds = new ArrayList<>();
+////                    resultsProds.set(0).setIdOfProduct(response.body().get(0).getNameOfProduct());
+//                    resultsProds.set(i, response.body().get(i));
+//                    resultsProds.set(i, resultsProds.get(i).setNameOfProduct(response.body().get(0).getNameOfProduct()));
+//
+//                }
+
+//                List<ResultsProd> resultsProds;
+//                resultsProds = response.body();
+//                response.body().get(0).getNameOfProduct();
+//                Log.d(TAG, resultsProds.get(0).getNameOfProduct() );
+//
+//                adapter = new DataAdapter(resultsProds);
+//                listProductShop.setAdapter(adapter);
+//
+
+
+
+//                adapter = new DataAdapter(prodInfos);
+//                listProductShop.setAdapter(adapter);
+//                listProductShop.setItemAnimator(new SlideInUpAnimator());
+            }
+
+            @Override
+            public void onFailure(Call<List<ResultsProd>> call, Throwable t) {
+                Log.d(TAG, t.getMessage());
+                Log.d(TAG, "can not do :(");
+            }
+        });
+
+
+        return view;
+    }
+
+    @Override
+    public void onRefresh() {
+
+        mSwipeRefreshLayout.setRefreshing(true);
+        Log.d(TAG, "refreshed");
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(false);
+
+            }
+        });
+    }
+}

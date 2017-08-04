@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SUM</string>
+    <string name="login">войти</string>
+    <string name="password">пароль</string>
+    <string name="username">имя</string>
+    <string name="icon">значок</string>
+    <string name="register">Register</string>
+    <string name="update">Обновить</string>
+    <string name="done">Обновить</string>
+    <string name="title_activity_statistics">StatisticsActivity</string>
+
+    <string name="navigation_drawer_open">Открыть навигационный ящик</string>
+    <string name="navigation_drawer_close">Закрыть навигационный ящик</string>
+
+    <string name="action_settings">настройки</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Привет, пустой фрагмент</string>
+    <string name="Login">войти</string>
+
+</resources>
