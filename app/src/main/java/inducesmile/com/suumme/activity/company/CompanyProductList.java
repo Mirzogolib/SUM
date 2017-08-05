@@ -14,10 +14,12 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import inducesmile.com.suumme.ObjectClasses.ProductInfo;
 import inducesmile.com.suumme.ObjectClasses.ResultsProd;
 import inducesmile.com.suumme.R;
 import inducesmile.com.suumme.Service.APIService;
 import inducesmile.com.suumme.adapter.DataAdapter;
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -61,11 +63,13 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         listProductShop.setLayoutManager(layoutManager);
+        adapter = new DataAdapter();
+        listProductShop.setAdapter(adapter);
 
 
-        apiService.getProduct(token).enqueue(new Callback<List<ResultsProd>>() {
+        apiService.getProduct(token).enqueue(new Callback<ProductInfo>() {
             @Override
-            public void onResponse(Call<List<ResultsProd>> call, Response<List<ResultsProd>> response) {
+            public void onResponse(Call<ProductInfo> call, Response<ProductInfo> response) {
                 Log.d(TAG, "Success in geting product");
 
 
@@ -73,19 +77,14 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
 //                productPrice.setText(response.body().getResults().get(0).getPrice()+" Sum");
 
 
+                for (ResultsProd prod : response.body().getResults())
+                    adapter.addNewItem(prod);
+                listProductShop.setItemAnimator(new SlideInUpAnimator());
 
 
 
 
 
-
-//                for (int i = 0 ; i < response.body().size(); i++){
-//                    resultsProds = new ArrayList<>();
-////                    resultsProds.set(0).setIdOfProduct(response.body().get(0).getNameOfProduct());
-//                    resultsProds.set(i, response.body().get(i));
-//                    resultsProds.set(i, resultsProds.get(i).setNameOfProduct(response.body().get(0).getNameOfProduct()));
-//
-//                }
 
 //                List<ResultsProd> resultsProds;
 //                resultsProds = response.body();
@@ -104,7 +103,7 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
             }
 
             @Override
-            public void onFailure(Call<List<ResultsProd>> call, Throwable t) {
+            public void onFailure(Call<ProductInfo> call, Throwable t) {
                 Log.d(TAG, t.getMessage());
                 Log.d(TAG, "can not do :(");
             }

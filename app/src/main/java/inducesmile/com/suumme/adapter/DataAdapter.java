@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import inducesmile.com.suumme.ObjectClasses.ResultsProd;
@@ -16,8 +17,8 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataAdapterVie
 
     List<ResultsProd> productInfos;
 
-    public DataAdapter(List<ResultsProd> _productInfos) {
-        productInfos = _productInfos;
+    public DataAdapter() {
+        productInfos = new ArrayList<>();
     }
 
     @Override
@@ -40,8 +41,13 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataAdapterVie
         return productInfos.size();
     }
 
+    public void addNewItem(ResultsProd item){
+        productInfos.add(item);
+        notifyDataSetChanged();
+    }
 
-    public static class DataAdapterViewHolder extends RecyclerView.ViewHolder {
+
+    static class DataAdapterViewHolder extends RecyclerView.ViewHolder {
         private TextView product_name;
         private TextView product_price;
 

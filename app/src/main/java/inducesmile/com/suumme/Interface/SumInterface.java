@@ -1,9 +1,7 @@
 package inducesmile.com.suumme.Interface;
 
-import java.util.List;
-
 import inducesmile.com.suumme.ObjectClasses.AllUsers;
-import inducesmile.com.suumme.ObjectClasses.ResultsProd;
+import inducesmile.com.suumme.ObjectClasses.ProductInfo;
 import inducesmile.com.suumme.ObjectClasses.UploadObject;
 import inducesmile.com.suumme.ObjectClasses.User;
 import inducesmile.com.suumme.ObjectClasses.UserInfo;
@@ -33,7 +31,7 @@ public interface SumInterface {
     Call<User> update(@Header("Authorization") String token, @Path("id") int id, @Body User user);
 
     @GET("api/v1/product/")
-    Call<List<ResultsProd>> getProduct(@Header("Authorization") String token);
+    Call<ProductInfo> getProduct(@Header("Authorization") String token);
 
     @GET("api/v1/user")
     Call<AllUsers> getUsers(@Header("Authorization") String token);

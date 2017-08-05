@@ -1,10 +1,8 @@
 package inducesmile.com.suumme.Service;
 
-import java.util.List;
-
 import inducesmile.com.suumme.Interface.SumInterface;
 import inducesmile.com.suumme.ObjectClasses.AllUsers;
-import inducesmile.com.suumme.ObjectClasses.ResultsProd;
+import inducesmile.com.suumme.ObjectClasses.ProductInfo;
 import inducesmile.com.suumme.ObjectClasses.User;
 import inducesmile.com.suumme.ObjectClasses.UserInfo;
 import inducesmile.com.suumme.Token.Token;
@@ -13,9 +11,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Created by user on 23/06/2017.
- */
+
 
 public class APIService {
     String TAG;
@@ -46,7 +42,7 @@ public class APIService {
         SumInterface apiInterface = getClient().create(SumInterface.class);
         return apiInterface.update(token, id, user);
     }
-    public Call<List<ResultsProd>> getProduct(String token ){
+    public Call<ProductInfo> getProduct(String token ){
         SumInterface apiInterface = getClient().create(SumInterface.class);
         return apiInterface.getProduct(token);
     }
