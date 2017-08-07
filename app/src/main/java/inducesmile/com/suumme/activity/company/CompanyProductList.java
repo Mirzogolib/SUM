@@ -73,33 +73,12 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
                 Log.d(TAG, "Success in geting product");
 
 
-//                productName.setText(response.body().getResults().get(0).getNameOfProduct());
-//                productPrice.setText(response.body().getResults().get(0).getPrice()+" Sum");
 
 
                 for (ResultsProd prod : response.body().getResults())
                     adapter.addNewItem(prod);
                 listProductShop.setItemAnimator(new SlideInUpAnimator());
 
-
-
-
-
-
-//                List<ResultsProd> resultsProds;
-//                resultsProds = response.body();
-//                response.body().get(0).getNameOfProduct();
-//                Log.d(TAG, resultsProds.get(0).getNameOfProduct() );
-//
-//                adapter = new DataAdapter(resultsProds);
-//                listProductShop.setAdapter(adapter);
-//
-
-
-
-//                adapter = new DataAdapter(prodInfos);
-//                listProductShop.setAdapter(adapter);
-//                listProductShop.setItemAnimator(new SlideInUpAnimator());
             }
 
             @Override
