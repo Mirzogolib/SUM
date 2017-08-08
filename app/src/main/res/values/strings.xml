@@ -25,7 +25,12 @@
 
     <string name="upload_image">UPLOAD IMAGE</string>
     <string name="read_file">This app needs access to your file storage so that it can read photos.</string>
-
+    <string name="home">Home</string>
+    <string name="product">Product</string>
+    <string name="order">Order</string>
+    <string name="user">User</string>
+    <string name="logout">Logout</string>
+    <string name="help">Help</string>
 
 
 </resources>

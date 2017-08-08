@@ -7,12 +7,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import java.util.List;
+import android.widget.Toast;
 
 import inducesmile.com.suumme.ObjectClasses.ProductInfo;
 import inducesmile.com.suumme.ObjectClasses.ResultsProd;
@@ -34,7 +34,8 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
     String TAG = "test";
     RecyclerView listProductShop;
     DataAdapter adapter;
-    List<ResultsProd> resultsProds;
+
+
 
     public static CompanyProductList newInstance(String token) {
 
@@ -61,7 +62,7 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         listProductShop.setLayoutManager(layoutManager);
         adapter = new DataAdapter();
         listProductShop.setAdapter(adapter);
@@ -72,12 +73,20 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
             public void onResponse(Call<ProductInfo> call, Response<ProductInfo> response) {
                 Log.d(TAG, "Success in geting product");
 
-
-
-
+                listProductShop.setItemAnimator(new SlideInUpAnimator());
                 for (ResultsProd prod : response.body().getResults())
                     adapter.addNewItem(prod);
-                listProductShop.setItemAnimator(new SlideInUpAnimator());
+
+
+
+                listProductShop.setRecyclerListener(new RecyclerView.RecyclerListener() {
+                    @Override
+                    public void onViewRecycled(RecyclerView.ViewHolder holder) {
+                        Toast.makeText(getContext(), "sds", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
 
             }
 
@@ -87,6 +96,9 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
                 Log.d(TAG, "can not do :(");
             }
         });
+
+
+
 
 
         return view;
@@ -101,7 +113,52 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
             @Override
             public void run() {
                 mSwipeRefreshLayout.setRefreshing(false);
+                final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                listProductShop.setLayoutManager(layoutManager);
+                adapter = new DataAdapter();
+                listProductShop.setAdapter(adapter);
+                apiService.getProduct(token).enqueue(new Callback<ProductInfo>() {
+                    @Override
+                    public void onResponse(Call<ProductInfo> call, Response<ProductInfo> response) {
+                        Log.d(TAG, "Success in geting product");
+                        for (ResultsProd prod : response.body().getResults())
+                            adapter.addNewItem(prod);
+                        listProductShop.setItemAnimator(new SlideInUpAnimator());
+                    }
 
+                    @Override
+                    public void onFailure(Call<ProductInfo> call, Throwable t) {
+                        Log.d(TAG, t.getMessage());
+                        Log.d(TAG, "can not do :(");
+                    }
+                });
+
+            }
+        });
+    }
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if(getView() == null){
+            return;
+        }
+
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
+                    //here code
+                    return true;
+                }
+
+                return false;
             }
         });
     }

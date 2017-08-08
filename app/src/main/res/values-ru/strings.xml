@@ -19,4 +19,14 @@
     <string name="hello_blank_fragment">Привет, пустой фрагмент</string>
     <string name="Login">войти</string>
 
+
+    <string name="upload_image">UPLOAD IMAGE</string>
+    <string name="read_file">This app needs access to your file storage so that it can read photos.</string>
+    <string name="home">Главная</string>
+    <string name="product">Продукт</string>
+    <string name="order">Заказать</string>
+    <string name="user">Пользователь</string>
+    <string name="logout">Выйти</string>
+    <string name="help">Помощь</string>
+
 </resources>

@@ -3,9 +3,11 @@ package inducesmile.com.suumme.Service;
 import inducesmile.com.suumme.Interface.SumInterface;
 import inducesmile.com.suumme.ObjectClasses.AllUsers;
 import inducesmile.com.suumme.ObjectClasses.ProductInfo;
+import inducesmile.com.suumme.ObjectClasses.UploadObject;
 import inducesmile.com.suumme.ObjectClasses.User;
 import inducesmile.com.suumme.ObjectClasses.UserInfo;
 import inducesmile.com.suumme.Token.Token;
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -58,6 +60,9 @@ public class APIService {
         return apiInterface.getUsers(token);
     }
 
-
+    public Call<UploadObject> uploadFile(String token, MultipartBody.Part file){
+        SumInterface apiInterface = getClient().create(SumInterface.class);
+        return apiInterface.uploadFile(token, file);
+    }
 
 }

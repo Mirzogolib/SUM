@@ -1,5 +1,6 @@
 package inducesmile.com.suumme.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -22,6 +23,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.io.File;
+
+import inducesmile.com.suumme.ObjectClasses.UploadObject;
 import inducesmile.com.suumme.ObjectClasses.User;
 import inducesmile.com.suumme.R;
 import inducesmile.com.suumme.Service.APIService;
@@ -30,6 +34,9 @@ import inducesmile.com.suumme.activity.company.CompanyProductList;
 import inducesmile.com.suumme.activity.shop.ShopOrderList;
 import inducesmile.com.suumme.activity.shop.ShopProductList;
 import inducesmile.com.suumme.model.UserDB;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,8 +51,9 @@ public class StatisticsActivity extends AppCompatActivity
     ImageView personPhoto;
     int backButtonCount=0;
     String  type;
+
     int idProfile;
-    String TAG;
+    String TAG= "test";
     UserDB userDB;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private static final int REQUEST_GALLERY_CODE = 200;
@@ -89,6 +97,7 @@ public class StatisticsActivity extends AppCompatActivity
         images.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 updateImage();
             }
         });
@@ -145,28 +154,96 @@ public class StatisticsActivity extends AppCompatActivity
     }
 
     private void updateImage() {
-        Intent openGalleryIntent = new Intent(Intent.ACTION_PICK);
-        openGalleryIntent.setType("image/*");
-        startActivityForResult(openGalleryIntent, REQUEST_GALLERY_CODE);
+//        Intent openGalleryIntent = new Intent(Intent.ACTION_PICK);
+//        openGalleryIntent.setType("image/*");
+//        startActivityForResult(openGalleryIntent, REQUEST_GALLERY_CODE);
+
+//        String path = Environment.getExternalStorageDirectory().toString()+"media";
+//        File filew  = new File(path);
+//        RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
+//        MultipartBody.Part body = MultipartBody.Part.createFormData("upload", file.getName(), reqFile);
+//        String path = Environment.getExternalStorageDirectory().toString();
+//        Uri imageUri;
+//
+//        File file = new File("/storage/emulated/0/Download/1.jpg");
+//        RequestBody requestFile =RequestBody.create(MediaType.parse("multipart/form-data"), file);
+//        MultipartBody.Part body =
+//                MultipartBody.Part.createFormData("image", file.getName(), requestFile);
+
+        final ProgressDialog progressDialog;
+        progressDialog = new ProgressDialog(StatisticsActivity.this);
+        progressDialog.setMessage("Uploading...");
+        progressDialog.show();
+
+        File file = new File("/storage/emulated/0/Download/1.jpg");
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+        MultipartBody.Part body =
+                MultipartBody.Part.createFormData("uploaded_file", file.getName(), requestFile);
+        apiService.uploadFile(token, body).enqueue(new Callback<UploadObject>() {
+            @Override
+            public void onResponse(Call<UploadObject> call, Response<UploadObject> response) {
+                Log.d(TAG, "ok");
+                progressDialog.dismiss();
+             }
+
+            @Override
+            public void onFailure(Call<UploadObject> call, Throwable t) {
+
+            }
+});
+
+
+//        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+//        MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
+
+//        apiService.uploadFile(token, body).enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                Log.d(TAG, "uploaded");
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//
+//            }
+//        });
+
     }
 
-    @Override
-    public void onBackPressed() {
-        if(backButtonCount >= 1)
-        {
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        }
-        else
-        {
 
-            Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
-            backButtonCount++;
-        }
 
-    }
+//    @Override
+//    public void onBackPressed() {
+//            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//            if (drawer.isDrawerOpen(GravityCompat.START)) {
+//                drawer.closeDrawer(GravityCompat.START);
+//            } else   if (backButtonCount >= 1){
+//                Intent intent = new Intent(Intent.ACTION_MAIN);
+//                intent.addCategory(Intent.CATEGORY_HOME);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(intent);
+//            } else {
+//                    Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
+//                    backButtonCount++;
+//                   }
+//            }
+
+
+
+//    @Override
+//    public void onBackPressed() {
+//
+//        int count = getFragmentManager().getBackStackEntryCount();
+//
+//        if (count == 0) {
+//            super.onBackPressed();
+//
+//        } else {
+//            getFragmentManager().popBackStack();
+//        }
+//
+//    }
 
 
     @Override
@@ -302,6 +379,7 @@ public class StatisticsActivity extends AppCompatActivity
 
 
     }
+
 
 
 }
