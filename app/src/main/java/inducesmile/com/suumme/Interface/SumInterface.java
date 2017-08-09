@@ -2,6 +2,7 @@ package inducesmile.com.suumme.Interface;
 
 import inducesmile.com.suumme.ObjectClasses.AllUsers;
 import inducesmile.com.suumme.ObjectClasses.ProductInfo;
+import inducesmile.com.suumme.ObjectClasses.ResultsProd;
 import inducesmile.com.suumme.ObjectClasses.UploadObject;
 import inducesmile.com.suumme.ObjectClasses.User;
 import inducesmile.com.suumme.ObjectClasses.UserInfo;
@@ -31,6 +32,9 @@ public interface SumInterface {
 
     @GET("api/v1/product/")
     Call<ProductInfo> getProduct(@Header("Authorization") String token);
+
+    @GET("api/v1/product/{id}")
+    Call<ResultsProd> getProductById(@Header("Authorization") String token, @Path("id") int id );
 
     @GET("api/v1/user")
     Call<AllUsers> getUsers(@Header("Authorization") String token);

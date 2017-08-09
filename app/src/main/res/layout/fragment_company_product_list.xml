@@ -1,71 +1,23 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/company_product"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="inducesmile.com.suumme.activity.company.CompanyProductList"
-    >
-<android.support.v4.widget.SwipeRefreshLayout
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:id="@+id/swipeView">
-<!--<RelativeLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent">-->
-    <!--<android.support.v7.widget.CardView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_margin="16dp"-->
-        <!--android:layout_marginTop="0dp"-->
+    tools:context="inducesmile.com.suumme.activity.company.CompanyProductList">
 
-        <!--<RelativeLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:padding="10dp">-->
-
-            <!--<ImageView-->
-                <!--android:id="@+id/product_photo"-->
-                <!--android:layout_width="72dp"-->
-                <!--android:layout_height="72dp"-->
-                <!--android:layout_alignParentLeft="true"-->
-                <!--android:layout_alignParentTop="true"-->
-                <!--android:layout_marginRight="16dp"-->
-                <!--/>-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/product_name"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignParentTop="true"-->
-                <!--android:layout_toEndOf="@+id/product_photo"-->
-                <!--android:layout_toRightOf="@+id/product_photo"-->
-                <!--android:textSize="30sp" />-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/product_price"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_below="@+id/product_name"-->
-                <!--android:layout_toRightOf="@+id/product_photo" />-->
-
-        <!--</RelativeLayout>-->
-
-    <!--</android.support.v7.widget.CardView>-->
-<!--</RelativeLayout>-->
-
-
-
-    <android.support.v7.widget.RecyclerView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/listProductShop"
-        >
+        android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/listProductShop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-</android.support.v4.widget.SwipeRefreshLayout>
+        </android.support.v7.widget.RecyclerView>
 
-
-
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
 </FrameLayout>

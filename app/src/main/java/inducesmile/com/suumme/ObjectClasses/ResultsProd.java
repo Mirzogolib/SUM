@@ -13,6 +13,13 @@ public class ResultsProd {
     @SerializedName("price")
     String price;
 
+    @SerializedName("user")
+    UserInfoProduct userInfoProduct;
+
+    @SerializedName("definition")
+    String definition;
+
+
     public int getIdOfProduct() {
         return idOfProduct;
     }
@@ -23,6 +30,22 @@ public class ResultsProd {
 
     public String getPrice() {
         return price;
+    }
+
+    public UserInfoProduct getUserInfoProduct() {
+        return userInfoProduct;
+    }
+
+    public String getDefinition() {
+        return definition;
+    }
+
+    public void setDefinition(String definition) {
+        this.definition = definition;
+    }
+
+    public void setUserInfoProduct(UserInfoProduct userInfoProduct) {
+        this.userInfoProduct = userInfoProduct;
     }
 
     public void setIdOfProduct(int idOfProduct) {

@@ -13,21 +13,14 @@ public class ProductInfo {
     @SerializedName("results")
     List<ResultsProd> results;
 
-
-
-
-
-
-
     public List<ResultsProd> getResults() {
         return results;
     }
 
-
-
     public void setResults(List<ResultsProd> results) {
         this.results = results;
     }
+
 }
 
 

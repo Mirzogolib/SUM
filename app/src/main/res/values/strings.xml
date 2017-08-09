@@ -20,9 +20,6 @@
     <string name="imageUpdate">Image Update</string>
 
 
-
-
-
     <string name="upload_image">UPLOAD IMAGE</string>
     <string name="read_file">This app needs access to your file storage so that it can read photos.</string>
     <string name="home">Home</string>

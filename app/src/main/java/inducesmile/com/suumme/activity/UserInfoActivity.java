@@ -44,7 +44,7 @@ public class UserInfoActivity extends AppCompatActivity {
         email = (TextView)findViewById(R.id.person_email);
         address = (TextView)findViewById(R.id.address);
         id = (TextView)findViewById(R.id.id);
-        userType = (TextView)findViewById(R.id.userType);
+
         personPhoto = (ImageView) findViewById(R.id.person_photo1);
         update.setOnClickListener(new View.OnClickListener() {
             @Override

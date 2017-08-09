@@ -1,6 +1,7 @@
 package inducesmile.com.suumme.activity.company;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import inducesmile.com.suumme.ObjectClasses.ProductInfo;
 import inducesmile.com.suumme.ObjectClasses.ResultsProd;
@@ -34,6 +34,7 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
     String TAG = "test";
     RecyclerView listProductShop;
     DataAdapter adapter;
+    Context context;
 
 
 
@@ -64,7 +65,7 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         listProductShop.setLayoutManager(layoutManager);
-        adapter = new DataAdapter();
+        adapter = new DataAdapter(context, token);
         listProductShop.setAdapter(adapter);
 
 
@@ -74,19 +75,10 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
                 Log.d(TAG, "Success in geting product");
 
                 listProductShop.setItemAnimator(new SlideInUpAnimator());
-                for (ResultsProd prod : response.body().getResults())
+                for (ResultsProd prod : response.body().getResults()) {
                     adapter.addNewItem(prod);
 
-
-
-                listProductShop.setRecyclerListener(new RecyclerView.RecyclerListener() {
-                    @Override
-                    public void onViewRecycled(RecyclerView.ViewHolder holder) {
-                        Toast.makeText(getContext(), "sds", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-
+                }
 
             }
 
@@ -115,15 +107,15 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
                 mSwipeRefreshLayout.setRefreshing(false);
                 final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
                 listProductShop.setLayoutManager(layoutManager);
-                adapter = new DataAdapter();
+                adapter = new DataAdapter(context, token);
                 listProductShop.setAdapter(adapter);
                 apiService.getProduct(token).enqueue(new Callback<ProductInfo>() {
                     @Override
                     public void onResponse(Call<ProductInfo> call, Response<ProductInfo> response) {
                         Log.d(TAG, "Success in geting product");
+                        listProductShop.setItemAnimator(new SlideInUpAnimator());
                         for (ResultsProd prod : response.body().getResults())
                             adapter.addNewItem(prod);
-                        listProductShop.setItemAnimator(new SlideInUpAnimator());
                     }
 
                     @Override

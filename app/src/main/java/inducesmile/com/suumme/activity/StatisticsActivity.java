@@ -31,6 +31,7 @@ import inducesmile.com.suumme.R;
 import inducesmile.com.suumme.Service.APIService;
 import inducesmile.com.suumme.activity.company.CompanyOrderList;
 import inducesmile.com.suumme.activity.company.CompanyProductList;
+import inducesmile.com.suumme.activity.company.ProductFragmentCompany;
 import inducesmile.com.suumme.activity.shop.ShopOrderList;
 import inducesmile.com.suumme.activity.shop.ShopProductList;
 import inducesmile.com.suumme.model.UserDB;
@@ -49,16 +50,17 @@ public class StatisticsActivity extends AppCompatActivity
     private Button update, images;
     private String token;
     ImageView personPhoto;
-    int backButtonCount=0;
-    String  type;
+    int backButtonCount = 0;
+    String type;
 
     int idProfile;
-    String TAG= "test";
+    String TAG = "test";
     UserDB userDB;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private static final int REQUEST_GALLERY_CODE = 200;
     ShopProductList fragmentShopProduct;
     CompanyProductList fragmentCompanyProduct;
+    ProductFragmentCompany productFragmentCompany;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,18 +82,18 @@ public class StatisticsActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         apiService = new APIService();
-        update = (Button)findViewById(R.id.buttonUpdate);
+        update = (Button) findViewById(R.id.buttonUpdate);
         firstName = (TextView) findViewById(R.id.person_name);
         firstNameText = (TextView) findViewById(R.id.firstName);
         email = (TextView) findViewById(R.id.person_email);
         address = (TextView) findViewById(R.id.address);
-        id1=(TextView)findViewById(R.id.id);
-        userType = (TextView) findViewById(R.id.userType);
-        personPhoto=(ImageView)findViewById(R.id.person_photo);
+        id1 = (TextView) findViewById(R.id.id);
+
+        personPhoto = (ImageView) findViewById(R.id.person_photo);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeView1);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        images = (Button)findViewById(R.id.buttonImage);
+        images = (Button) findViewById(R.id.buttonImage);
 
 
         images.setOnClickListener(new View.OnClickListener() {
@@ -116,28 +118,21 @@ public class StatisticsActivity extends AppCompatActivity
             public void onResponse(Call<User> call, Response<User> response) {
 
 
-                idProfile= response.body().getId();
+                idProfile = response.body().getId();
                 type = response.body().getUser_type();
-
-                if (type.equals("0")) {
-                    userType.setText("You are Company! Welcome");
-
-                } else if(type.equals("1")) {
-                    userType.setText("You are Shop! Welcome");
-                }
                 //photo
-                if(response.body().getPhoto() == null){
+                if (response.body().getPhoto() == null) {
                     personPhoto.setImageResource(R.drawable.sum);
-                }else {
-                        Glide.with(StatisticsActivity.this).load(response.body().getPhoto()).into(personPhoto);
+                } else {
+                    Glide.with(StatisticsActivity.this).load(response.body().getPhoto()).into(personPhoto);
                 }
 
 
                 firstName.setText(response.body().getFirst_name());
-                firstNameText.setText(response.body().getFirst_name()+" " + response.body().getLast_name()+" " + response.body().getMiddle_name());
+                firstNameText.setText(response.body().getFirst_name() + " " + response.body().getLast_name() + " " + response.body().getMiddle_name());
                 email.setText(response.body().getEmail());
-                address.setText("Address: "+response.body().getAddress());
-                id1.setText("Your id number is: "+response.body().getId());
+                address.setText("Address: " + response.body().getAddress());
+                id1.setText("Your id number is: " + response.body().getId());
             }
 
             @Override
@@ -147,8 +142,6 @@ public class StatisticsActivity extends AppCompatActivity
 
             }
         });
-
-
 
 
     }
@@ -185,65 +178,16 @@ public class StatisticsActivity extends AppCompatActivity
             public void onResponse(Call<UploadObject> call, Response<UploadObject> response) {
                 Log.d(TAG, "ok");
                 progressDialog.dismiss();
-             }
+            }
 
             @Override
             public void onFailure(Call<UploadObject> call, Throwable t) {
 
             }
-});
+        });
 
-
-//        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-//        MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
-
-//        apiService.uploadFile(token, body).enqueue(new Callback<ResponseBody>() {
-//            @Override
-//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                Log.d(TAG, "uploaded");
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ResponseBody> call, Throwable t) {
-//
-//            }
-//        });
 
     }
-
-
-
-//    @Override
-//    public void onBackPressed() {
-//            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//            if (drawer.isDrawerOpen(GravityCompat.START)) {
-//                drawer.closeDrawer(GravityCompat.START);
-//            } else   if (backButtonCount >= 1){
-//                Intent intent = new Intent(Intent.ACTION_MAIN);
-//                intent.addCategory(Intent.CATEGORY_HOME);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(intent);
-//            } else {
-//                    Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
-//                    backButtonCount++;
-//                   }
-//            }
-
-
-
-//    @Override
-//    public void onBackPressed() {
-//
-//        int count = getFragmentManager().getBackStackEntryCount();
-//
-//        if (count == 0) {
-//            super.onBackPressed();
-//
-//        } else {
-//            getFragmentManager().popBackStack();
-//        }
-//
-//    }
 
 
     @Override
@@ -280,12 +224,12 @@ public class StatisticsActivity extends AppCompatActivity
 
         if (id == R.id.nav_product) {
             setTitle("Product List");
-            if (type.equals("0")){
+            if (type.equals("0")) {
 
                 fragmentCompanyProduct = CompanyProductList.newInstance(token);
                 fragmentManager.beginTransaction().replace(R.id.frameLayout, fragmentCompanyProduct).commit();
 
-            }else {
+            } else {
 
                 fragmentShopProduct = ShopProductList.newInstance(token);
                 fragmentManager.beginTransaction().replace(R.id.frameLayout, fragmentShopProduct).commit();
@@ -293,15 +237,15 @@ public class StatisticsActivity extends AppCompatActivity
             }
 
         } else if (id == R.id.nav_order) {
-                setTitle("Order List");
-            if (type.equals("0")){
+            setTitle("Order List");
+            if (type.equals("0")) {
 
                 CompanyOrderList companyOrderList = new CompanyOrderList();
                 fragmentManager.beginTransaction().replace(R.id.frameLayout, companyOrderList).commit();
 
-            }else {
+            } else {
 
-                ShopOrderList shopOrderList= new ShopOrderList();
+                ShopOrderList shopOrderList = new ShopOrderList();
                 fragmentManager.beginTransaction().replace(R.id.frameLayout, shopOrderList).commit();
 
             }
@@ -315,6 +259,9 @@ public class StatisticsActivity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_help) {
 
+            int idProduct = 4;
+            productFragmentCompany = ProductFragmentCompany.newInstance(token, idProduct);
+            fragmentManager.beginTransaction().replace(R.id.frameLayout, productFragmentCompany).commit();
 
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -343,26 +290,19 @@ public class StatisticsActivity extends AppCompatActivity
                     public void onResponse(Call<User> call, Response<User> response) {
 
 
-                        idProfile= response.body().getId();
+                        idProfile = response.body().getId();
                         type = response.body().getUser_type();
-
-                        if (type.equals("0")) {
-                            userType.setText("You are Company! Welcome");
-
-                        } else if(type.equals("1")) {
-                            userType.setText("You are Shop! Welcome");
-                        }
                         //photo
-                        if(response.body().getPhoto() == null){
+                        if (response.body().getPhoto() == null) {
                             personPhoto.setImageResource(R.drawable.sum);
-                        }else {
+                        } else {
                             Glide.with(StatisticsActivity.this).load(response.body().getPhoto()).into(personPhoto);
                         }
                         firstName.setText(response.body().getFirst_name());
-                        firstNameText.setText(response.body().getFirst_name()+" " + response.body().getLast_name()+" " + response.body().getMiddle_name());
+                        firstNameText.setText(response.body().getFirst_name() + " " + response.body().getLast_name() + " " + response.body().getMiddle_name());
                         email.setText(response.body().getEmail());
-                        address.setText("Address: "+response.body().getAddress());
-                        id1.setText("Your id number is: "+response.body().getId());
+                        address.setText("Address: " + response.body().getAddress());
+                        id1.setText("Your id number is: " + response.body().getId());
 
 
                     }
@@ -379,7 +319,6 @@ public class StatisticsActivity extends AppCompatActivity
 
 
     }
-
 
 
 }
