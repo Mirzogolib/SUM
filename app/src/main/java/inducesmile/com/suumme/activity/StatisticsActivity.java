@@ -60,6 +60,7 @@ public class StatisticsActivity extends AppCompatActivity
     private static final int REQUEST_GALLERY_CODE = 200;
     ShopProductList fragmentShopProduct;
     CompanyProductList fragmentCompanyProduct;
+    CompanyOrderList fragmentCompanyOrder;
     ProductFragmentCompany productFragmentCompany;
 
     @Override
@@ -239,9 +240,9 @@ public class StatisticsActivity extends AppCompatActivity
         } else if (id == R.id.nav_order) {
             setTitle("Order List");
             if (type.equals("0")) {
-
-                CompanyOrderList companyOrderList = new CompanyOrderList();
-                fragmentManager.beginTransaction().replace(R.id.frameLayout, companyOrderList).commit();
+                Log.d(TAG, "Success it is in companyOrder");
+                fragmentCompanyOrder = CompanyOrderList.newInstance(token);
+                fragmentManager.beginTransaction().replace(R.id.frameLayout, fragmentCompanyOrder).commit();
 
             } else {
 

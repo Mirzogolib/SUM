@@ -1,15 +1,21 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/company_order"
     android:layout_height="match_parent"
     tools:context="inducesmile.com.suumme.activity.company.CompanyOrderList">
-
-    <!-- TODO: Update blank fragment layout -->
-
-    <TextView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hi You are Company and order list"
-        android:textSize="24dp"/>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/listProductShop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </FrameLayout>

@@ -20,6 +20,10 @@ public class ResultsProd {
     String definition;
 
 
+    @SerializedName("image")
+    int image;
+
+
     public int getIdOfProduct() {
         return idOfProduct;
     }
@@ -38,6 +42,14 @@ public class ResultsProd {
 
     public String getDefinition() {
         return definition;
+    }
+
+    public int getImage() {
+        return image;
+    }
+
+    public void setImage(int image) {
+        this.image = image;
     }
 
     public void setDefinition(String definition) {

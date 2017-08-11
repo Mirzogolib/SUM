@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +49,15 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataAdapterVie
         final ResultsProd productInfo = productInfos.get(position);
         holder.product_name.setText(productInfo.getNameOfProduct());
         holder.product_price.setText(productInfo.getPrice());
-        holder.product_image.setImageResource(R.drawable.product1);
+//        holder.product_image.setImageResource(R.drawable.product1);
+        int image = productInfo.getImage();
+
+
+        if (image == 0) {
+            holder.product_image.setImageResource(R.drawable.sum);
+        } else {
+            Glide.with(DataAdapter.this.context).load(productInfo.getImage()).into(holder.product_image);
+        }
 
 
         holder.cardViewProductCompany.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +71,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataAdapterVie
                 Log.d(TAG, String.valueOf(id));
 
 
-//                FragmentManager fragmentManager = ((FragmentActivity) mContext).getSupportFragmentManager();
+//                FragmentManager fragmentManager = ((FragmentActivity) holder.cardViewProductCompany).getSupportFragmentManager();
 //                FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.frameLayout);
 //                frameLayout.removeAllViews();
 //
