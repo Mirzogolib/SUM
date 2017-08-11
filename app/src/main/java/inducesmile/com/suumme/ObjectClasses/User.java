@@ -9,25 +9,25 @@ public class User {
     @SerializedName("first_name")
     public String first_name;
     @SerializedName("last_name")
-    String last_name;
+    private String last_name;
     @SerializedName("middle_name")
-    String middle_name;
+    private String middle_name;
     @SerializedName("address")
     public String address;
     @SerializedName("location")
-    String location;
+    private String location;
     @SerializedName("user_type")
-    String  user_type;
+    private String  user_type;
     @SerializedName("region")
     public String region;
     @SerializedName("name")
-   public String name;
+    public String name;
     @SerializedName("phone_number")
-    String phone_number;
+    private String phone_number;
     @SerializedName("email")
-    String email;
+    private String email;
     @SerializedName("photo")
-    String photo;
+    private String photo;
 
 
 

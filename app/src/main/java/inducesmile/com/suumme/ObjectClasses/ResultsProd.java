@@ -8,10 +8,10 @@ public class ResultsProd {
     int idOfProduct;
 
     @SerializedName("name")
-    String nameOfProduct;
+    private String nameOfProduct;
 
     @SerializedName("price")
-    String price;
+    private String price;
 
     public int getIdOfProduct() {
         return idOfProduct;

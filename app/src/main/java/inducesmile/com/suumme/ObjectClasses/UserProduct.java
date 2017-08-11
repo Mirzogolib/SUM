@@ -2,16 +2,14 @@ package inducesmile.com.suumme.ObjectClasses;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by user on 22/07/2017.
- */
+
 
 public class UserProduct {
     @SerializedName("id")
     public int id;
 
     @SerializedName("name")
-    String name;
+    private String name;
 
 
     public int getId() {

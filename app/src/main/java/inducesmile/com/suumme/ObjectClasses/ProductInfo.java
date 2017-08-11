@@ -4,14 +4,10 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-/**
- * Created by user on 18/07/2017.
- */
-
 public class ProductInfo {
 
     @SerializedName("results")
-    List<ResultsProd> results;
+    private List<ResultsProd> results;
 
 
 

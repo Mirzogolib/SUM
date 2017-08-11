@@ -4,13 +4,11 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-/**
- * Created by user on 19/07/2017.
- */
+
 
 public class AllUsers {
     @SerializedName("results")
-    List<User> results;
+    private List<User> results;
 
 
     public List<User> getResults() {
