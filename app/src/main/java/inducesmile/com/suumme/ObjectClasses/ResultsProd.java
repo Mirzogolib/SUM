@@ -21,7 +21,7 @@ public class ResultsProd {
 
 
     @SerializedName("image")
-    int image;
+    String  image;
 
 
     public int getIdOfProduct() {
@@ -44,11 +44,11 @@ public class ResultsProd {
         return definition;
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

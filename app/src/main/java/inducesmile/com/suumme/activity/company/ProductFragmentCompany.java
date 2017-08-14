@@ -3,8 +3,10 @@ package inducesmile.com.suumme.activity.company;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +29,7 @@ APIService apiService;
     TextView productName, productPrice, companyName, definition;
     ImageView productPhoto;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private final static String TAG_FRAGMENT = "TAG_FRAGMENT";
 
     public static ProductFragmentCompany newInstance(String token, int id) {
 
@@ -57,7 +60,21 @@ APIService apiService;
         productPhoto = (ImageView) view.findViewById(R.id.productPhoto);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeView2);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                Log.i(TAG, "keyCode: " + keyCode);
+                if( keyCode == KeyEvent.KEYCODE_BACK ) {
+                    Log.i(TAG, "onKey Back listener is working!!!");
+                    getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
 
 
 
@@ -109,4 +126,9 @@ APIService apiService;
             }
         });
     }
+
+
+
+
+
 }

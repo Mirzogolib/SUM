@@ -100,6 +100,36 @@ public class CompanyOrderList extends Fragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
+        mSwipeRefreshLayout.setRefreshing(true);
+        Log.d(TAG, "refreshed");
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(false);
+                final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                listProductShop.setLayoutManager(layoutManager);
+                adapter = new OrderAdapter(context, token);
+                listProductShop.setAdapter(adapter);
 
+
+                apiService.getOrder(token).enqueue(new Callback<OrderCompany>() {
+                    @Override
+                    public void onResponse(Call<OrderCompany> call, Response<OrderCompany> response) {
+                        Log.d(TAG, "Success in geting order");
+                        listProductShop.setItemAnimator(new SlideInUpAnimator());
+                        for (Order prod : response.body().getResults()) {
+                            adapter.addNewItem(prod);
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<OrderCompany> call, Throwable t) {
+                        Log.d(TAG, t.getMessage());
+                        Log.d(TAG, "can not do :(");
+                    }
+                });
+            }
+        });
     }
 }

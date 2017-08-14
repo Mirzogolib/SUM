@@ -8,13 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import inducesmile.com.suumme.Interface.MyOnClickListener;
 import inducesmile.com.suumme.ObjectClasses.ResultsProd;
 import inducesmile.com.suumme.R;
 
@@ -25,13 +23,14 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataAdapterVie
     public int id;
     String token;
     Context context;
+    MyOnClickListener mListener;
 
 
-
-    public DataAdapter(Context context ,String token) {
+    public DataAdapter(Context context , String token, MyOnClickListener listener) {
         productInfos = new ArrayList<>();
         this.token = token;
         this.context= context;
+        mListener = listener;
 
 
     }
@@ -49,26 +48,35 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataAdapterVie
         final ResultsProd productInfo = productInfos.get(position);
         holder.product_name.setText(productInfo.getNameOfProduct());
         holder.product_price.setText(productInfo.getPrice());
-//        holder.product_image.setImageResource(R.drawable.product1);
-        int image = productInfo.getImage();
-
-
-        if (image == 0) {
-            holder.product_image.setImageResource(R.drawable.sum);
-        } else {
-            Glide.with(DataAdapter.this.context).load(productInfo.getImage()).into(holder.product_image);
-        }
-
-
+//        String image = productInfo.getImage()+ "ok";
+        holder.product_image.setImageResource(R.drawable.product1);
+//        if (image.equals("ok")) {
+//            holder.product_image.setImageResource(R.drawable.sum);
+//        } else {
+//            Glide.with(context).load(productInfo.getImage()).into(holder.product_image);
+//        }
         holder.cardViewProductCompany.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mListener.onItemClick(productInfo.getIdOfProduct());
+                Log.d(TAG, productInfo.getImage()+ " ");
+            }
+        });
 
 
 
-                id = productInfo.getIdOfProduct();
-                Toast.makeText(view.getContext(), String.valueOf(id)+ " item sellected!", Toast.LENGTH_SHORT ).show();
-                Log.d(TAG, String.valueOf(id));
+
+
+
+
+//        holder.cardViewProductCompany.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+
+
+
+//                id = productInfo.getIdOfProduct();
+//                Toast.makeText(view.getContext(), String.valueOf(id)+ " item sellected!", Toast.LENGTH_SHORT ).show();
 
 
 //                FragmentManager fragmentManager = ((FragmentActivity) holder.cardViewProductCompany).getSupportFragmentManager();
@@ -81,8 +89,8 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataAdapterVie
 //                productInfoActivity.getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.listProductShop, productInfoActivity).commit();
 
 
-            }
-        });
+//            }
+//        });
     }
 
     @Override
@@ -92,6 +100,11 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataAdapterVie
 
     public void addNewItem(ResultsProd item) {
         productInfos.add(item);
+        notifyDataSetChanged();
+    }
+
+    public void clearList(){
+        productInfos.clear();
         notifyDataSetChanged();
     }
 

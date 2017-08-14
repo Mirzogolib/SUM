@@ -4,16 +4,18 @@ package inducesmile.com.suumme.activity.company;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import inducesmile.com.suumme.Interface.MyOnClickListener;
 import inducesmile.com.suumme.ObjectClasses.ProductInfo;
 import inducesmile.com.suumme.ObjectClasses.ResultsProd;
 import inducesmile.com.suumme.R;
@@ -35,8 +37,7 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
     RecyclerView listProductShop;
     DataAdapter adapter;
     Context context;
-
-
+    ProductFragmentCompany productFragmentCompany;
 
     public static CompanyProductList newInstance(String token) {
 
@@ -65,7 +66,7 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         listProductShop.setLayoutManager(layoutManager);
-        adapter = new DataAdapter(context, token);
+        adapter = new DataAdapter(context, token, mListener);
         listProductShop.setAdapter(adapter);
 
 
@@ -78,6 +79,7 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
                 for (ResultsProd prod : response.body().getResults()) {
                     adapter.addNewItem(prod);
 
+
                 }
 
             }
@@ -88,11 +90,6 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
                 Log.d(TAG, "can not do :(");
             }
         });
-
-
-
-
-
         return view;
     }
 
@@ -107,7 +104,7 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
                 mSwipeRefreshLayout.setRefreshing(false);
                 final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
                 listProductShop.setLayoutManager(layoutManager);
-                adapter = new DataAdapter(context, token);
+                adapter = new DataAdapter(context, token,mListener);
                 listProductShop.setAdapter(adapter);
                 apiService.getProduct(token).enqueue(new Callback<ProductInfo>() {
                     @Override
@@ -129,29 +126,17 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
         });
     }
 
+    MyOnClickListener mListener = new MyOnClickListener() {
+        @Override
+        public void onItemClick(int id) {
+            Log.d(TAG, String.valueOf(id));
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FrameLayout frameLayout = (FrameLayout) getView().findViewById(R.layout.fragment_company_product_list);
+            productFragmentCompany = ProductFragmentCompany.newInstance(token, id);
+            fragmentManager.beginTransaction().replace(R.id.frameLayout, productFragmentCompany).addToBackStack( "tag" ).commit();
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
 
-        if(getView() == null){
-            return;
         }
-
-        getView().setFocusableInTouchMode(true);
-        getView().requestFocus();
-        getView().setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-
-                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
-                    //here code
-                    return true;
-                }
-
-                return false;
-            }
-        });
-    }
+    };
 }

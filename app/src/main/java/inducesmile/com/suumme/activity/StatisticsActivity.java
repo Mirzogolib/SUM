@@ -147,10 +147,28 @@ public class StatisticsActivity extends AppCompatActivity
 
     }
 
+    @Override
+    public void onBackPressed() {
+        if(backButtonCount >= 1)
+        {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+        else
+        {
+
+            Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
+            backButtonCount++;
+        }
+
+    }
+
     private void updateImage() {
-//        Intent openGalleryIntent = new Intent(Intent.ACTION_PICK);
-//        openGalleryIntent.setType("image/*");
-//        startActivityForResult(openGalleryIntent, REQUEST_GALLERY_CODE);
+        Intent openGalleryIntent = new Intent(Intent.ACTION_PICK);
+        openGalleryIntent.setType("image/*");
+        startActivityForResult(openGalleryIntent, REQUEST_GALLERY_CODE);
 
 //        String path = Environment.getExternalStorageDirectory().toString()+"media";
 //        File filew  = new File(path);
