@@ -2,6 +2,7 @@ package inducesmile.com.suumme.Service;
 
 import inducesmile.com.suumme.Interface.SumInterface;
 import inducesmile.com.suumme.ObjectClasses.AllUsers;
+import inducesmile.com.suumme.ObjectClasses.Order;
 import inducesmile.com.suumme.ObjectClasses.OrderCompany;
 import inducesmile.com.suumme.ObjectClasses.ProductInfo;
 import inducesmile.com.suumme.ObjectClasses.ResultsProd;
@@ -73,7 +74,10 @@ public class APIService {
         return apiInterface.getOrder(token);
     }
 
-
+    public Call<Order> getOrderById(String token , int id){
+        SumInterface apiInterface = getClient().create(SumInterface.class);
+        return apiInterface.getOrderById(token, id);
+    }
 
     public Call<UploadObject> uploadFile(String token, MultipartBody.Part file){
         SumInterface apiInterface = getClient().create(SumInterface.class);

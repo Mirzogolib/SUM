@@ -1,6 +1,7 @@
 package inducesmile.com.suumme.Interface;
 
 import inducesmile.com.suumme.ObjectClasses.AllUsers;
+import inducesmile.com.suumme.ObjectClasses.Order;
 import inducesmile.com.suumme.ObjectClasses.OrderCompany;
 import inducesmile.com.suumme.ObjectClasses.ProductInfo;
 import inducesmile.com.suumme.ObjectClasses.ResultsProd;
@@ -46,6 +47,8 @@ public interface SumInterface {
     @GET("api/v1/order")
     Call<OrderCompany> getOrder(@Header("Authorization") String token);
 
+    @GET("api/v1/order/{id}")
+    Call<Order> getOrderById(@Header("Authorization") String token, @Path("id") int id);
 
     @Multipart
     @POST("api/v1/file/")

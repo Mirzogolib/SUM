@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import inducesmile.com.suumme.Interface.MyOnClickListener;
@@ -37,16 +36,17 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
     RecyclerView listProductShop;
     DataAdapter adapter;
     Context context;
+    int idProfile;
     ProductFragmentCompany productFragmentCompany;
 
-    public static CompanyProductList newInstance(String token) {
+    public static CompanyProductList newInstance(String token, int idProfile) {
 
 
         CompanyProductList companyProductList = new CompanyProductList();
         Bundle args = new Bundle();
         args.putString("token", token);
+        args.putInt("idProfile", idProfile);
         companyProductList.setArguments(args);
-
         return companyProductList;
     }
 
@@ -57,6 +57,7 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
         View view = inflater.inflate(R.layout.fragment_company_product_list, container, false);
         apiService = new APIService();
         token = getArguments().getString("token");
+        idProfile = getArguments().getInt("idProfile");
         productName = (TextView) view.findViewById(R.id.product_name);
         productPrice = (TextView) view.findViewById(R.id.product_price);
         listProductShop = (RecyclerView) view.findViewById(R.id.listProductShop);
@@ -74,11 +75,15 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
             @Override
             public void onResponse(Call<ProductInfo> call, Response<ProductInfo> response) {
                 Log.d(TAG, "Success in geting product");
-
                 listProductShop.setItemAnimator(new SlideInUpAnimator());
                 for (ResultsProd prod : response.body().getResults()) {
-                    adapter.addNewItem(prod);
-
+                    int a =  prod.getUserInfoProduct().getIdOfCompany();
+                    if (a == idProfile) {
+                        Log.d(TAG, "company id " + a);
+                        adapter.addNewItem(prod);
+                    }else {
+                        Log.d(TAG, "not entered with id "+a);
+                    }
 
                 }
 
@@ -109,11 +114,21 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
                 apiService.getProduct(token).enqueue(new Callback<ProductInfo>() {
                     @Override
                     public void onResponse(Call<ProductInfo> call, Response<ProductInfo> response) {
-                        Log.d(TAG, "Success in geting product");
-                        listProductShop.setItemAnimator(new SlideInUpAnimator());
-                        for (ResultsProd prod : response.body().getResults())
-                            adapter.addNewItem(prod);
-                    }
+
+
+                            Log.d(TAG, "Success in geting product");
+                            listProductShop.setItemAnimator(new SlideInUpAnimator());
+                            for (ResultsProd prod : response.body().getResults()) {
+                            int a =  prod.getUserInfoProduct().getIdOfCompany();
+                            if (a == idProfile) {
+                                Log.d(TAG, "company id " + a);
+                                adapter.addNewItem(prod);
+                            }else {
+                                Log.d(TAG, "not entered with id "+a);
+                            }
+
+                        }
+                        }
 
                     @Override
                     public void onFailure(Call<ProductInfo> call, Throwable t) {
@@ -130,9 +145,10 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
         @Override
         public void onItemClick(int id) {
             Log.d(TAG, String.valueOf(id));
+            int type = 0;
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            FrameLayout frameLayout = (FrameLayout) getView().findViewById(R.layout.fragment_company_product_list);
-            productFragmentCompany = ProductFragmentCompany.newInstance(token, id);
+//            FrameLayout frameLayout = (FrameLayout) getView().findViewById(R.layout.fragment_company_product_list);
+            productFragmentCompany = ProductFragmentCompany.newInstance(token, id, type);
             fragmentManager.beginTransaction().replace(R.id.frameLayout, productFragmentCompany).addToBackStack( "tag" ).commit();
 
 

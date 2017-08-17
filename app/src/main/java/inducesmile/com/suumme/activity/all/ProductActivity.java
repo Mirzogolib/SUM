@@ -1,4 +1,4 @@
-package inducesmile.com.suumme.activity;
+package inducesmile.com.suumme.activity.all;
 
 import android.content.Intent;
 import android.os.Bundle;

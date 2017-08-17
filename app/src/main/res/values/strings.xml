@@ -28,6 +28,11 @@
     <string name="user">User</string>
     <string name="logout">Logout</string>
     <string name="help">Help</string>
+    <string name="ordered_by">Ordered by:</string>
+    <string name="quantity">Quantity: </string>
+    <string name="total_price">Total Price:</string>
+    <string name="due_date">Due date:</string>
+    <string name="send">Send</string>
 
 
 </resources>

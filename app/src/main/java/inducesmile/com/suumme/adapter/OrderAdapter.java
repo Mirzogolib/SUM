@@ -2,17 +2,16 @@ package inducesmile.com.suumme.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import inducesmile.com.suumme.Interface.MyOnClickListener;
 import inducesmile.com.suumme.ObjectClasses.Order;
 import inducesmile.com.suumme.R;
 
@@ -23,11 +22,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderAdapter
     public int id;
     String token;
     Context context;
+    MyOnClickListener mListener;
 
-    public OrderAdapter(Context context , String token) {
+    public OrderAdapter(Context context , String token, MyOnClickListener listener) {
         productInfos = new ArrayList<>();
         this.token = token;
         this.context= context;
+        mListener = listener;
     }
 
     @Override
@@ -42,21 +43,30 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderAdapter
         holder.product_name.setText(productInfo.getProduct().getName());
         holder.product_price.setText(productInfo.getTotalPrice());
         holder.product_image.setImageResource(R.drawable.nestle);
+
         holder.cardViewProductCompany.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-
-                id = productInfo.getProduct().getIdOfOrder();
-                Toast.makeText(view.getContext(), String.valueOf(id)+ " item sellected!", Toast.LENGTH_SHORT ).show();
-                Log.d(TAG, String.valueOf(id));
-
-
-
-
+                mListener.onItemClick(productInfo.getIdOfOrder());
             }
         });
+
+
+//        holder.cardViewProductCompany.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//
+//
+//                id = productInfo.getProduct().getIdOfOrder();
+//                Toast.makeText(view.getContext(), String.valueOf(id)+ " item sellected!", Toast.LENGTH_SHORT ).show();
+//                Log.d(TAG, String.valueOf(id));
+//
+//
+//
+//
+//            }
+//        });
     }
 
     @Override

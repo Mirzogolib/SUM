@@ -9,17 +9,17 @@ import com.google.gson.annotations.SerializedName;
 public class UserInfoProduct {
 
     @SerializedName("id")
-    String idOfCompany;
+    int idOfCompany;
 
     @SerializedName("name")
     String companyName;
 
 
-    public String getIdOfCompany() {
+    public int getIdOfCompany() {
         return idOfCompany;
     }
 
-    public void setIdOfCompany(String idOfCompany) {
+    public void setIdOfCompany(int idOfCompany) {
         this.idOfCompany = idOfCompany;
     }
 

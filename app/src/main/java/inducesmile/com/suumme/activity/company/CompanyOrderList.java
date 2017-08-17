@@ -4,6 +4,7 @@ package inducesmile.com.suumme.activity.company;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import inducesmile.com.suumme.Interface.MyOnClickListener;
 import inducesmile.com.suumme.ObjectClasses.Order;
 import inducesmile.com.suumme.ObjectClasses.OrderCompany;
 import inducesmile.com.suumme.R;
@@ -33,15 +35,14 @@ public class CompanyOrderList extends Fragment implements SwipeRefreshLayout.OnR
     RecyclerView listProductShop;
     OrderAdapter adapter;
     Context context;
+    OrderFragmentCompany orderFragmentCompany;
 
     public static CompanyOrderList newInstance(String token) {
-
 
         CompanyOrderList companyOrderList= new CompanyOrderList();
         Bundle args = new Bundle();
         args.putString("token", token);
-       companyOrderList.setArguments(args);
-
+        companyOrderList.setArguments(args);
         return companyOrderList;
     }
 
@@ -54,13 +55,15 @@ public class CompanyOrderList extends Fragment implements SwipeRefreshLayout.OnR
         Log.d(TAG, token);
         productName = (TextView) view.findViewById(R.id.product_name);
         productPrice = (TextView) view.findViewById(R.id.product_price);
+
+
         listProductShop = (RecyclerView) view.findViewById(R.id.listProductShop);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeView);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         listProductShop.setLayoutManager(layoutManager);
-        adapter = new OrderAdapter(context, token);
+        adapter = new OrderAdapter(context, token, mListener);
         listProductShop.setAdapter(adapter);
 
 
@@ -108,7 +111,7 @@ public class CompanyOrderList extends Fragment implements SwipeRefreshLayout.OnR
                 mSwipeRefreshLayout.setRefreshing(false);
                 final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
                 listProductShop.setLayoutManager(layoutManager);
-                adapter = new OrderAdapter(context, token);
+                adapter = new OrderAdapter(context, token, mListener);
                 listProductShop.setAdapter(adapter);
 
 
@@ -132,4 +135,24 @@ public class CompanyOrderList extends Fragment implements SwipeRefreshLayout.OnR
             }
         });
     }
+
+
+
+
+    MyOnClickListener mListener = new MyOnClickListener() {
+        @Override
+        public void onItemClick(int id) {
+            Log.d(TAG, String.valueOf(id));
+            int type = 0;
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//            FrameLayout frameLayout = (FrameLayout) getView().findViewById(R.layout.fragment_company_order_list);
+            orderFragmentCompany = OrderFragmentCompany.newInstance(token, id, type);
+            fragmentManager.beginTransaction().replace(R.id.frameLayout, orderFragmentCompany).addToBackStack( "tag" ).commit();
+
+
+
+        }
+    };
+
+
 }

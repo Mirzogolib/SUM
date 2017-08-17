@@ -28,5 +28,9 @@
     <string name="user">Пользователь</string>
     <string name="logout">Выйти</string>
     <string name="help">Помощь</string>
-
+    <string name="ordered_by">Заказан:</string>
+    <string name="quantity">Количество: </string>
+    <string name="total_price">Итоговая цена:</string>
+    <string name="due_date">Cрок:</string>
+    <string name="send">Послать</string>
 </resources>

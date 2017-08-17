@@ -1,11 +1,8 @@
-
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="inducesmile.com.suumme.activity.company.ProductFragmentCompany"
-
-    >
+    tools:context="inducesmile.com.suumme.activity.company.OrderFragmentCompany">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -81,38 +78,102 @@
                             android:layout_height="wrap_content"
                             android:src="@drawable/group" />
 
-                        <TextView
-                            android:id="@+id/productCompanyName"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textAlignment="center"
-                            android:textSize="24dp" />
+                            android:orientation="horizontal">
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/ordered_by"
+                                android:textSize="20dp" />
 
-                        <TextView
-                            android:layout_marginTop="10dp"
-                            android:id="@+id/definition"
+                            <TextView
+                                android:id="@+id/productShopName"
+                                android:layout_marginLeft="10dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="20dp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/quantity"
+                                android:textSize="20dp" />
+
+                            <TextView
+                                android:id="@+id/productQuantity"
+                                android:layout_marginLeft="10dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="20dp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/total_price"
+                                android:textSize="20dp" />
+
+                            <TextView
+                                android:id="@+id/productTotalPrice"
+                                android:layout_marginLeft="10dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="20dp" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/due_date"
+                                android:textSize="20dp" />
+
+                            <TextView
+                                android:id="@+id/productDate"
+                                android:layout_marginLeft="10dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="20dp" />
+
+                        </LinearLayout>
+
                     </LinearLayout>
 
 
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.AppCompatButton
-                    android:layout_margin="16dp"
-                    android:id="@+id/buttonOrder"
+                    android:id="@+id/buttonStatus"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/third"
+                    android:layout_margin="16dp"
                     android:layout_marginBottom="24dp"
                     android:layout_marginTop="24dp"
                     android:background="#fc5252"
                     android:padding="12dp"
-                    android:text="@string/order"
-                    android:textColor="#ffffff"
-                    android:layout_below="@id/third"/>
+                    android:textColor="#ffffff" />
             </RelativeLayout>
         </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
+
 </FrameLayout>

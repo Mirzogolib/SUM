@@ -23,7 +23,7 @@
             android:name="AA_MODELS"
             android:value="inducesmile.com.suumme.model.UserDB" />
 
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.all.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.StatisticsActivity"
+            android:name=".activity.all.StatisticsActivity"
             android:label="@string/title_activity_statistics"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -40,11 +40,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.UserInfoActivity" />
-        <activity android:name=".activity.UpdateInfoActivity" />
-        <activity android:name=".activity.ProductActivity" />
+        <activity android:name=".activity.all.UserInfoActivity" />
+        <activity android:name=".activity.all.UpdateInfoActivity" />
+        <activity android:name=".activity.all.ProductActivity" />
         <activity android:name=".WebViewActivity" />
-        <activity android:name=".activity.NewTestActivity"></activity>
+        <activity android:name=".activity.all.NewTestActivity"></activity>
     </application>
 
 </manifest>

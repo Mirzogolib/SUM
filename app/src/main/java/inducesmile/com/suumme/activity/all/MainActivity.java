@@ -1,4 +1,4 @@
-package inducesmile.com.suumme.activity;
+package inducesmile.com.suumme.activity.all;
 
 import android.app.ProgressDialog;
 import android.content.Intent;

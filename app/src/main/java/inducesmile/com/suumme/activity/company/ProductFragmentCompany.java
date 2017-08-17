@@ -10,6 +10,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,27 +23,26 @@ import retrofit2.Response;
 
 
 public class ProductFragmentCompany extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
-APIService apiService;
+    APIService apiService;
     String token;
     int id;
     String TAG = "Test";
     TextView productName, productPrice, companyName, definition;
     ImageView productPhoto;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private final static String TAG_FRAGMENT = "TAG_FRAGMENT";
+    Button order;
+    int type;
 
-    public static ProductFragmentCompany newInstance(String token, int id) {
+    public static ProductFragmentCompany newInstance(String token, int id, int type) {
 
 
         ProductFragmentCompany productFragmentCompany = new ProductFragmentCompany();
         Bundle args = new Bundle();
         args.putString("token", token);
         args.putInt("id", id);
+        args.putInt("type", type);
         productFragmentCompany.setArguments(args);
         return productFragmentCompany;
-
-
-
     }
 
 
@@ -53,11 +53,19 @@ APIService apiService;
         apiService = new APIService();
         token = getArguments().getString("token");
         id= getArguments().getInt("id");
+        type = getArguments().getInt("type");
         productName = (TextView) view.findViewById(R.id.productName);
         productPrice=(TextView)view.findViewById(R.id.productPrice);
         companyName =(TextView)view.findViewById(R.id.productCompanyName);
         definition = (TextView)view.findViewById(R.id.definition);
         productPhoto = (ImageView) view.findViewById(R.id.productPhoto);
+        order = (Button)view.findViewById(R.id.buttonOrder);
+        if(type == 0) {
+            order.setVisibility(View.GONE);
+        }else {
+            order.setVisibility(View.VISIBLE);
+        }
+
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeView2);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         view.setFocusableInTouchMode(true);

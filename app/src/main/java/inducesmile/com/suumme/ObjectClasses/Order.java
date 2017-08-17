@@ -22,6 +22,12 @@ public class Order {
     @SerializedName("product")
     private Product product;
 
+    @SerializedName("user")
+    private OrderUserInfo user;
+
+
+
+
 
     public int getIdOfOrder() {
         return idOfOrder;
@@ -69,5 +75,13 @@ public class Order {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public OrderUserInfo getUser() {
+        return user;
+    }
+
+    public void setUser(OrderUserInfo user) {
+        this.user = user;
     }
 }

@@ -1,4 +1,4 @@
-package inducesmile.com.suumme.activity;
+package inducesmile.com.suumme.activity.all;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -61,7 +61,9 @@ public class StatisticsActivity extends AppCompatActivity
     ShopProductList fragmentShopProduct;
     CompanyProductList fragmentCompanyProduct;
     CompanyOrderList fragmentCompanyOrder;
+    ShopOrderList fragmentShopOrder;
     ProductFragmentCompany productFragmentCompany;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -244,8 +246,8 @@ public class StatisticsActivity extends AppCompatActivity
         if (id == R.id.nav_product) {
             setTitle("Product List");
             if (type.equals("0")) {
-
-                fragmentCompanyProduct = CompanyProductList.newInstance(token);
+                Log.d(TAG, "with id "+ idProfile);
+                fragmentCompanyProduct = CompanyProductList.newInstance(token, idProfile);
                 fragmentManager.beginTransaction().replace(R.id.frameLayout, fragmentCompanyProduct).commit();
 
             } else {
@@ -263,10 +265,9 @@ public class StatisticsActivity extends AppCompatActivity
                 fragmentManager.beginTransaction().replace(R.id.frameLayout, fragmentCompanyOrder).commit();
 
             } else {
-
-                ShopOrderList shopOrderList = new ShopOrderList();
-                fragmentManager.beginTransaction().replace(R.id.frameLayout, shopOrderList).commit();
-
+                Log.d(TAG, "Success it is in shopOrder");
+                fragmentShopOrder = ShopOrderList.newInstance(token);
+                fragmentManager.beginTransaction().replace(R.id.frameLayout, fragmentShopOrder).commit();
             }
         } else if (id == R.id.nav_user) {
             Intent intent = new Intent(this, UserInfoActivity.class);
@@ -277,10 +278,6 @@ public class StatisticsActivity extends AppCompatActivity
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_help) {
-
-            int idProduct = 4;
-            productFragmentCompany = ProductFragmentCompany.newInstance(token, idProduct);
-            fragmentManager.beginTransaction().replace(R.id.frameLayout, productFragmentCompany).commit();
 
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

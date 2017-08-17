@@ -46,51 +46,24 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataAdapterVie
     @Override
     public void onBindViewHolder(final DataAdapterViewHolder holder, final int position) {
         final ResultsProd productInfo = productInfos.get(position);
-        holder.product_name.setText(productInfo.getNameOfProduct());
-        holder.product_price.setText(productInfo.getPrice());
+
+            holder.product_name.setText(productInfo.getNameOfProduct());
+            holder.product_price.setText(productInfo.getPrice());
 //        String image = productInfo.getImage()+ "ok";
-        holder.product_image.setImageResource(R.drawable.product1);
+            holder.product_image.setImageResource(R.drawable.product1);
 //        if (image.equals("ok")) {
 //            holder.product_image.setImageResource(R.drawable.sum);
 //        } else {
 //            Glide.with(context).load(productInfo.getImage()).into(holder.product_image);
 //        }
-        holder.cardViewProductCompany.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mListener.onItemClick(productInfo.getIdOfProduct());
-                Log.d(TAG, productInfo.getImage()+ " ");
-            }
-        });
+            holder.cardViewProductCompany.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mListener.onItemClick(productInfo.getIdOfProduct());
+                    Log.d(TAG, productInfo.getImage() + " ");
+                }
+            });
 
-
-
-
-
-
-
-//        holder.cardViewProductCompany.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-
-
-
-//                id = productInfo.getIdOfProduct();
-//                Toast.makeText(view.getContext(), String.valueOf(id)+ " item sellected!", Toast.LENGTH_SHORT ).show();
-
-
-//                FragmentManager fragmentManager = ((FragmentActivity) holder.cardViewProductCompany).getSupportFragmentManager();
-//                FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.frameLayout);
-//                frameLayout.removeAllViews();
-//
-//                ProductFragmentCompany productFragmentCompany = ProductFragmentCompany.newInstance(token);
-//                fragmentManager.beginTransaction().replace(R.id.frameLayout, productFragmentCompany).commit();
-
-//                productInfoActivity.getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.listProductShop, productInfoActivity).commit();
-
-
-//            }
-//        });
     }
 
     @Override
