@@ -1,4 +1,4 @@
-package inducesmile.com.suumme.activity.company;
+package inducesmile.com.suumme.activity.shop.product;
 
 
 import android.content.Context;
@@ -14,95 +14,92 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import inducesmile.com.suumme.Interface.MyOnClickListener;
-import inducesmile.com.suumme.ObjectClasses.Order;
-import inducesmile.com.suumme.ObjectClasses.OrderCompany;
+import inducesmile.com.suumme.ObjectClasses.ProductInfo;
+import inducesmile.com.suumme.ObjectClasses.ResultsProd;
 import inducesmile.com.suumme.R;
 import inducesmile.com.suumme.Service.APIService;
-import inducesmile.com.suumme.adapter.OrderAdapter;
+import inducesmile.com.suumme.activity.company.product.ProductFragmentCompany;
+import inducesmile.com.suumme.adapter.DataAdapter;
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class CompanyOrderList extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class ShopProductList extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+
+
+    private ArrayList<ProductInfo> data;
+    private DataAdapter adapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     APIService apiService;
     String token;
     TextView productName, productPrice;
     String TAG = "test";
     RecyclerView listProductShop;
-    OrderAdapter adapter;
     Context context;
-    OrderFragmentCompany orderFragmentCompany;
+    ProductFragmentCompany productFragmentCompany;
 
-    public static CompanyOrderList newInstance(String token) {
+    public static ShopProductList newInstance(String token){
 
-        CompanyOrderList companyOrderList= new CompanyOrderList();
+        ShopProductList shopProductList= new ShopProductList();
         Bundle args = new Bundle();
         args.putString("token", token);
-        companyOrderList.setArguments(args);
-        return companyOrderList;
+        shopProductList.setArguments(args);
+
+        return shopProductList;
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_company_order_list, container, false);
-        apiService = new APIService();
+
+        View view =inflater.inflate(R.layout.fragment_company_product_list, container, false);
+        apiService= new APIService();
         token = getArguments().getString("token");
-        Log.d(TAG, token);
         productName = (TextView) view.findViewById(R.id.product_name);
         productPrice = (TextView) view.findViewById(R.id.product_price);
-
-
-        listProductShop = (RecyclerView) view.findViewById(R.id.listProductShop);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeView);
         mSwipeRefreshLayout.setOnRefreshListener(this);
+        listProductShop = (RecyclerView) view.findViewById(R.id.listProductShop);
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         listProductShop.setLayoutManager(layoutManager);
-        adapter = new OrderAdapter(context, token, mListener);
+        adapter = new DataAdapter(context, token, mListener);
         listProductShop.setAdapter(adapter);
-
-
-        apiService.getOrder(token).enqueue(new Callback<OrderCompany>() {
+        apiService.getProduct(token).enqueue(new Callback<ProductInfo>() {
             @Override
-            public void onResponse(Call<OrderCompany> call, Response<OrderCompany> response) {
-                Log.d(TAG, "Success in geting order");
+            public void onResponse(Call<ProductInfo> call, Response<ProductInfo> response) {
+                Log.d(TAG, "Success in geting product");
                 listProductShop.setItemAnimator(new SlideInUpAnimator());
-                for (Order prod : response.body().getResults()) {
-                    adapter.addNewItem(prod);
+                for (ResultsProd prod : response.body().getResults()) {
+                        adapter.addNewItem(prod);
+                    }
 
                 }
-            }
+
+
 
             @Override
-            public void onFailure(Call<OrderCompany> call, Throwable t) {
+            public void onFailure(Call<ProductInfo> call, Throwable t) {
                 Log.d(TAG, t.getMessage());
                 Log.d(TAG, "can not do :(");
             }
         });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         return view;
+
+
+
     }
+
 
     @Override
     public void onRefresh() {
+
         mSwipeRefreshLayout.setRefreshing(true);
         Log.d(TAG, "refreshed");
         mSwipeRefreshLayout.post(new Runnable() {
@@ -111,23 +108,22 @@ public class CompanyOrderList extends Fragment implements SwipeRefreshLayout.OnR
                 mSwipeRefreshLayout.setRefreshing(false);
                 final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
                 listProductShop.setLayoutManager(layoutManager);
-                adapter = new OrderAdapter(context, token, mListener);
+                adapter = new DataAdapter(context, token, mListener);
                 listProductShop.setAdapter(adapter);
-
-
-                apiService.getOrder(token).enqueue(new Callback<OrderCompany>() {
+                apiService.getProduct(token).enqueue(new Callback<ProductInfo>() {
                     @Override
-                    public void onResponse(Call<OrderCompany> call, Response<OrderCompany> response) {
-                        Log.d(TAG, "Success in geting order");
+                    public void onResponse(Call<ProductInfo> call, Response<ProductInfo> response) {
+                        Log.d(TAG, "Success in geting product");
                         listProductShop.setItemAnimator(new SlideInUpAnimator());
-                        for (Order prod : response.body().getResults()) {
+                        for (ResultsProd prod : response.body().getResults()) {
                             adapter.addNewItem(prod);
-
                         }
                     }
 
+
+
                     @Override
-                    public void onFailure(Call<OrderCompany> call, Throwable t) {
+                    public void onFailure(Call<ProductInfo> call, Throwable t) {
                         Log.d(TAG, t.getMessage());
                         Log.d(TAG, "can not do :(");
                     }
@@ -138,21 +134,17 @@ public class CompanyOrderList extends Fragment implements SwipeRefreshLayout.OnR
 
 
 
-
     MyOnClickListener mListener = new MyOnClickListener() {
         @Override
         public void onItemClick(int id) {
             Log.d(TAG, String.valueOf(id));
-            int type = 0;
+            int type = 1;
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//            FrameLayout frameLayout = (FrameLayout) getView().findViewById(R.layout.fragment_company_order_list);
-            orderFragmentCompany = OrderFragmentCompany.newInstance(token, id, type);
-            fragmentManager.beginTransaction().replace(R.id.frameLayout, orderFragmentCompany).addToBackStack( "tag" ).commit();
+            productFragmentCompany = ProductFragmentCompany.newInstance(token, id, type);
+            fragmentManager.beginTransaction().replace(R.id.frameLayout, productFragmentCompany).addToBackStack( "tag" ).commit();
 
 
 
         }
     };
-
-
 }

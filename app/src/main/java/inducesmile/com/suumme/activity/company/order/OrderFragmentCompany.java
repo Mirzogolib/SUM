@@ -1,4 +1,4 @@
-package inducesmile.com.suumme.activity.company;
+package inducesmile.com.suumme.activity.company.order;
 
 
 import android.os.Bundle;
@@ -48,7 +48,7 @@ public class OrderFragmentCompany extends Fragment implements SwipeRefreshLayout
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_order_fragment_company, container, false);
+        View view = inflater.inflate(R.layout.order_info_sample, container, false);
         apiService = new APIService();
         token = getArguments().getString("token");
         id= getArguments().getInt("id");

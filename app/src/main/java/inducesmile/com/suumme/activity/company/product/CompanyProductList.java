@@ -1,4 +1,4 @@
-package inducesmile.com.suumme.activity.shop;
+package inducesmile.com.suumme.activity.company.product;
 
 
 import android.content.Context;
@@ -14,14 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import inducesmile.com.suumme.Interface.MyOnClickListener;
 import inducesmile.com.suumme.ObjectClasses.ProductInfo;
 import inducesmile.com.suumme.ObjectClasses.ResultsProd;
 import inducesmile.com.suumme.R;
 import inducesmile.com.suumme.Service.APIService;
-import inducesmile.com.suumme.activity.company.ProductFragmentCompany;
 import inducesmile.com.suumme.adapter.DataAdapter;
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 import retrofit2.Call;
@@ -29,59 +26,68 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class ShopProductList extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class CompanyProductList extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
-
-    private ArrayList<ProductInfo> data;
-    private DataAdapter adapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     APIService apiService;
     String token;
     TextView productName, productPrice;
     String TAG = "test";
     RecyclerView listProductShop;
+    DataAdapter adapter;
     Context context;
+    int idProfile;
     ProductFragmentCompany productFragmentCompany;
 
-    public static ShopProductList newInstance(String token){
+    public static CompanyProductList newInstance(String token, int idProfile) {
 
-        ShopProductList shopProductList= new ShopProductList();
+
+        CompanyProductList companyProductList = new CompanyProductList();
         Bundle args = new Bundle();
         args.putString("token", token);
-        shopProductList.setArguments(args);
-
-        return shopProductList;
+        args.putInt("idProfile", idProfile);
+        companyProductList.setArguments(args);
+        return companyProductList;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
 
-        View view =inflater.inflate(R.layout.fragment_company_product_list, container, false);
-        apiService= new APIService();
+    @Override
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_company_product_list, container, false);
+        apiService = new APIService();
         token = getArguments().getString("token");
+        idProfile = getArguments().getInt("idProfile");
         productName = (TextView) view.findViewById(R.id.product_name);
         productPrice = (TextView) view.findViewById(R.id.product_price);
+        listProductShop = (RecyclerView) view.findViewById(R.id.listProductShop);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeView);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        listProductShop = (RecyclerView) view.findViewById(R.id.listProductShop);
+
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         listProductShop.setLayoutManager(layoutManager);
         adapter = new DataAdapter(context, token, mListener);
         listProductShop.setAdapter(adapter);
+
+
         apiService.getProduct(token).enqueue(new Callback<ProductInfo>() {
             @Override
             public void onResponse(Call<ProductInfo> call, Response<ProductInfo> response) {
                 Log.d(TAG, "Success in geting product");
                 listProductShop.setItemAnimator(new SlideInUpAnimator());
                 for (ResultsProd prod : response.body().getResults()) {
+                    int a =  prod.getUserInfoProduct().getIdOfCompany();
+                    if (a == idProfile) {
+                        Log.d(TAG, "company id " + a);
                         adapter.addNewItem(prod);
+                    }else {
+                        Log.d(TAG, "not entered with id "+a);
                     }
 
                 }
 
-
+            }
 
             @Override
             public void onFailure(Call<ProductInfo> call, Throwable t) {
@@ -89,13 +95,8 @@ public class ShopProductList extends Fragment implements SwipeRefreshLayout.OnRe
                 Log.d(TAG, "can not do :(");
             }
         });
-
         return view;
-
-
-
     }
-
 
     @Override
     public void onRefresh() {
@@ -108,19 +109,26 @@ public class ShopProductList extends Fragment implements SwipeRefreshLayout.OnRe
                 mSwipeRefreshLayout.setRefreshing(false);
                 final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
                 listProductShop.setLayoutManager(layoutManager);
-                adapter = new DataAdapter(context, token, mListener);
+                adapter = new DataAdapter(context, token,mListener);
                 listProductShop.setAdapter(adapter);
                 apiService.getProduct(token).enqueue(new Callback<ProductInfo>() {
                     @Override
                     public void onResponse(Call<ProductInfo> call, Response<ProductInfo> response) {
-                        Log.d(TAG, "Success in geting product");
-                        listProductShop.setItemAnimator(new SlideInUpAnimator());
-                        for (ResultsProd prod : response.body().getResults()) {
-                            adapter.addNewItem(prod);
+
+
+                            Log.d(TAG, "Success in geting product");
+                            listProductShop.setItemAnimator(new SlideInUpAnimator());
+                            for (ResultsProd prod : response.body().getResults()) {
+                            int a =  prod.getUserInfoProduct().getIdOfCompany();
+                            if (a == idProfile) {
+                                Log.d(TAG, "company id " + a);
+                                adapter.addNewItem(prod);
+                            }else {
+                                Log.d(TAG, "not entered with id "+a);
+                            }
+
                         }
-                    }
-
-
+                        }
 
                     @Override
                     public void onFailure(Call<ProductInfo> call, Throwable t) {
@@ -128,18 +136,18 @@ public class ShopProductList extends Fragment implements SwipeRefreshLayout.OnRe
                         Log.d(TAG, "can not do :(");
                     }
                 });
+
             }
         });
     }
-
-
 
     MyOnClickListener mListener = new MyOnClickListener() {
         @Override
         public void onItemClick(int id) {
             Log.d(TAG, String.valueOf(id));
-            int type = 1;
+            int type = 0;
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//            FrameLayout frameLayout = (FrameLayout) getView().findViewById(R.layout.fragment_company_product_list);
             productFragmentCompany = ProductFragmentCompany.newInstance(token, id, type);
             fragmentManager.beginTransaction().replace(R.id.frameLayout, productFragmentCompany).addToBackStack( "tag" ).commit();
 

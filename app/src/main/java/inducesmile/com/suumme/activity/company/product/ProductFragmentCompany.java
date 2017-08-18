@@ -1,4 +1,4 @@
-package inducesmile.com.suumme.activity.company;
+package inducesmile.com.suumme.activity.company.product;
 
 
 import android.os.Bundle;
@@ -32,6 +32,7 @@ public class ProductFragmentCompany extends Fragment implements SwipeRefreshLayo
     private SwipeRefreshLayout mSwipeRefreshLayout;
     Button order;
     int type;
+    MakeOrderFragment makeOrderFragment;
 
     public static ProductFragmentCompany newInstance(String token, int id, int type) {
 
@@ -49,7 +50,7 @@ public class ProductFragmentCompany extends Fragment implements SwipeRefreshLayo
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_product_fragment_company, container, false);
+        View view = inflater.inflate(R.layout.product_info_sample, container, false);
         apiService = new APIService();
         token = getArguments().getString("token");
         id= getArguments().getInt("id");
@@ -64,6 +65,14 @@ public class ProductFragmentCompany extends Fragment implements SwipeRefreshLayo
             order.setVisibility(View.GONE);
         }else {
             order.setVisibility(View.VISIBLE);
+            order.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    makeOrderFragment = MakeOrderFragment.newInstance(token, id);
+                    fragmentManager.beginTransaction().replace(R.id.frameLayout, makeOrderFragment).addToBackStack( "tag" ).commit();
+                }
+            });
         }
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeView2);
@@ -105,7 +114,13 @@ public class ProductFragmentCompany extends Fragment implements SwipeRefreshLayo
 
 
         return view;
+
+
+
+
     }
+
+
 
     @Override
     public void onRefresh() {

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:id="@+id/company_order"
     android:layout_height="match_parent"
-    tools:context="inducesmile.com.suumme.activity.company.CompanyOrderList">
+    tools:context="inducesmile.com.suumme.activity.company.order.CompanyOrderList">
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeView"
         android:layout_width="match_parent"

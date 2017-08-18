@@ -74,6 +74,11 @@ public class APIService {
         return apiInterface.getOrder(token);
     }
 
+    public Call<Order> createOrder(String token ){
+        SumInterface apiInterface = getClient().create(SumInterface.class);
+        return apiInterface.createOrder(token);
+    }
+
     public Call<Order> getOrderById(String token , int id){
         SumInterface apiInterface = getClient().create(SumInterface.class);
         return apiInterface.getOrderById(token, id);

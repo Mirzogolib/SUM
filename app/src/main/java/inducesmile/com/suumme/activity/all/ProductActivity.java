@@ -20,7 +20,7 @@ public class ProductActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.product_sample);
+        setContentView(R.layout.product_order_sample_list);
 
         apiService = new APIService();
         Intent intent = getIntent();

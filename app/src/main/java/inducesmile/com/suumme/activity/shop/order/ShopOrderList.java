@@ -1,4 +1,4 @@
-package inducesmile.com.suumme.activity.shop;
+package inducesmile.com.suumme.activity.shop.order;
 
 
 import android.content.Context;
@@ -19,7 +19,7 @@ import inducesmile.com.suumme.ObjectClasses.Order;
 import inducesmile.com.suumme.ObjectClasses.OrderCompany;
 import inducesmile.com.suumme.R;
 import inducesmile.com.suumme.Service.APIService;
-import inducesmile.com.suumme.activity.company.OrderFragmentCompany;
+import inducesmile.com.suumme.activity.company.order.OrderFragmentCompany;
 import inducesmile.com.suumme.adapter.OrderAdapter;
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 import retrofit2.Call;

@@ -47,6 +47,9 @@ public interface SumInterface {
     @GET("api/v1/order")
     Call<OrderCompany> getOrder(@Header("Authorization") String token);
 
+    @POST("api/v1/order")
+    Call<Order> createOrder(@Header("Authorization") String token);
+
     @GET("api/v1/order/{id}")
     Call<Order> getOrderById(@Header("Authorization") String token, @Path("id") int id);
 

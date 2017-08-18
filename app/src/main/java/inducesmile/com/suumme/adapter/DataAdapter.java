@@ -38,7 +38,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataAdapterVie
     @Override
     public DataAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_sample, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_order_sample_list, parent, false);
 
         return new DataAdapterViewHolder(view);
     }
@@ -51,7 +51,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataAdapterVie
             holder.product_price.setText(productInfo.getPrice());
 //        String image = productInfo.getImage()+ "ok";
             holder.product_image.setImageResource(R.drawable.product1);
-//        if (image.equals("ok")) {
+//        if (holder.product_image==null) {
 //            holder.product_image.setImageResource(R.drawable.sum);
 //        } else {
 //            Glide.with(context).load(productInfo.getImage()).into(holder.product_image);
@@ -61,6 +61,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataAdapterVie
                 public void onClick(View view) {
                     mListener.onItemClick(productInfo.getIdOfProduct());
                     Log.d(TAG, productInfo.getImage() + " ");
+
                 }
             });
 

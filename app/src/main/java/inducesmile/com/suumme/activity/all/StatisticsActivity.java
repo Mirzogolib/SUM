@@ -1,8 +1,10 @@
 package inducesmile.com.suumme.activity.all;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -29,11 +31,11 @@ import inducesmile.com.suumme.ObjectClasses.UploadObject;
 import inducesmile.com.suumme.ObjectClasses.User;
 import inducesmile.com.suumme.R;
 import inducesmile.com.suumme.Service.APIService;
-import inducesmile.com.suumme.activity.company.CompanyOrderList;
-import inducesmile.com.suumme.activity.company.CompanyProductList;
-import inducesmile.com.suumme.activity.company.ProductFragmentCompany;
-import inducesmile.com.suumme.activity.shop.ShopOrderList;
-import inducesmile.com.suumme.activity.shop.ShopProductList;
+import inducesmile.com.suumme.activity.company.order.CompanyOrderList;
+import inducesmile.com.suumme.activity.company.product.CompanyProductList;
+import inducesmile.com.suumme.activity.company.product.ProductFragmentCompany;
+import inducesmile.com.suumme.activity.shop.order.ShopOrderList;
+import inducesmile.com.suumme.activity.shop.product.ShopProductList;
 import inducesmile.com.suumme.model.UserDB;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -64,6 +66,7 @@ public class StatisticsActivity extends AppCompatActivity
     ShopOrderList fragmentShopOrder;
     ProductFragmentCompany productFragmentCompany;
 
+    public static final int PICK_IMAGE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +74,7 @@ public class StatisticsActivity extends AppCompatActivity
         setContentView(R.layout.activity_statistics);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         userDB = UserDB.getUser();
 
@@ -99,13 +103,13 @@ public class StatisticsActivity extends AppCompatActivity
         images = (Button) findViewById(R.id.buttonImage);
 
 
-        images.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                updateImage();
-            }
-        });
+//        images.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                updateImage();
+//            }
+//        });
 
         update.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,6 +132,15 @@ public class StatisticsActivity extends AppCompatActivity
                     personPhoto.setImageResource(R.drawable.sum);
                 } else {
                     Glide.with(StatisticsActivity.this).load(response.body().getPhoto()).into(personPhoto);
+                    personPhoto.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent();
+                            intent.setType("image/*");
+                            intent.setAction(Intent.ACTION_GET_CONTENT);
+                            startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE);
+                        }
+                    });
                 }
 
 
@@ -167,48 +180,62 @@ public class StatisticsActivity extends AppCompatActivity
 
     }
 
-    private void updateImage() {
-        Intent openGalleryIntent = new Intent(Intent.ACTION_PICK);
-        openGalleryIntent.setType("image/*");
-        startActivityForResult(openGalleryIntent, REQUEST_GALLERY_CODE);
-
-//        String path = Environment.getExternalStorageDirectory().toString()+"media";
-//        File filew  = new File(path);
-//        RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
-//        MultipartBody.Part body = MultipartBody.Part.createFormData("upload", file.getName(), reqFile);
-//        String path = Environment.getExternalStorageDirectory().toString();
-//        Uri imageUri;
+//    private void updateImage() {
+////        Intent openGalleryIntent = new Intent(Intent.ACTION_PICK);
+////        openGalleryIntent.setType("image/*");
+////        startActivityForResult(openGalleryIntent, REQUEST_GALLERY_CODE);
+//
+//
+//        Intent intent = new Intent();
+//        intent.setType("image/*");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE);
+//
+////        String path = Environment.getExternalStorageDirectory().toString()+"media";
+////        File filew  = new File(path);
+////        RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
+////        MultipartBody.Part body = MultipartBody.Part.createFormData("upload", file.getName(), reqFile);
+////        String path = Environment.getExternalStorageDirectory().toString();
+////        Uri imageUri;
+////
+////        File file = new File("/storage/emulated/0/Download/1.jpg");
+////        RequestBody requestFile =RequestBody.create(MediaType.parse("multipart/form-data"), file);
+////        MultipartBody.Part body =
+////                MultipartBody.Part.createFormData("image", file.getName(), requestFile);
+//
+//        final ProgressDialog progressDialog;
+//        progressDialog = new ProgressDialog(StatisticsActivity.this);
+//        progressDialog.setMessage("Uploading...");
+//        progressDialog.show();
+//
+////        File file = new File("/storage/emulated/0/Download/1.jpg");
+////        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+////
+////        MultipartBody.Part body =
+////                MultipartBody.Part.createFormData("uploaded_file", file.getName(), requestFile);
 //
 //        File file = new File("/storage/emulated/0/Download/1.jpg");
-//        RequestBody requestFile =RequestBody.create(MediaType.parse("multipart/form-data"), file);
-//        MultipartBody.Part body =
-//                MultipartBody.Part.createFormData("image", file.getName(), requestFile);
+//
+//        RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
+//        MultipartBody.Part body = MultipartBody.Part.createFormData("upload", file.getName(), reqFile);
+//        RequestBody name = RequestBody.create(MediaType.parse("text/plain"), "upload_test");
+//
+//        apiService.uploadFile(token, body, name).enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                Log.d(TAG, "ok");
+//                progressDialog.dismiss();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//
+//            }
+//        });
+//
+//
+//    }
 
-        final ProgressDialog progressDialog;
-        progressDialog = new ProgressDialog(StatisticsActivity.this);
-        progressDialog.setMessage("Uploading...");
-        progressDialog.show();
-
-        File file = new File("/storage/emulated/0/Download/1.jpg");
-        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-
-        MultipartBody.Part body =
-                MultipartBody.Part.createFormData("uploaded_file", file.getName(), requestFile);
-        apiService.uploadFile(token, body).enqueue(new Callback<UploadObject>() {
-            @Override
-            public void onResponse(Call<UploadObject> call, Response<UploadObject> response) {
-                Log.d(TAG, "ok");
-                progressDialog.dismiss();
-            }
-
-            @Override
-            public void onFailure(Call<UploadObject> call, Throwable t) {
-
-            }
-        });
-
-
-    }
 
 
     @Override
@@ -336,5 +363,64 @@ public class StatisticsActivity extends AppCompatActivity
 
     }
 
+
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK) {
+
+            android.net.Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            android.database.Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+            if (cursor == null)
+                return;
+
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String filePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            final File file = new File(filePath);
+
+
+            final ProgressDialog progressDialog;
+            progressDialog = new ProgressDialog(StatisticsActivity.this);
+            progressDialog.setMessage("Uploading...");
+            progressDialog.show();
+
+            RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
+            final MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), reqFile);
+
+            Log.d("THIS", data.getData().getPath());
+
+            apiService.uploadFile(token, body).enqueue(new Callback<UploadObject>() {
+                @Override
+                public void onResponse(Call<UploadObject> call, Response<UploadObject> response) {
+                    Log.d(TAG, "ok");
+                    progressDialog.dismiss();
+                    Log.d(TAG, "your image id "+ response.body().id);
+                }
+
+                @Override
+                public void onFailure(Call<UploadObject> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
+//            retrofit2.Call<okhttp3.ResponseBody> req = service.postImage(body, name);
+//            req.enqueue(new Callback<ResponseBody>() {
+//                @Override
+//                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) { }
+//
+//                @Override
+//                public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                    t.printStackTrace();
+//                }
+//            });
+        }
+    }
 
 }

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="inducesmile.com.suumme.activity.company.OrderFragmentCompany">
+    tools:context="inducesmile.com.suumme.activity.company.order.OrderFragmentCompany">
 
     <LinearLayout
         android:layout_width="match_parent"
