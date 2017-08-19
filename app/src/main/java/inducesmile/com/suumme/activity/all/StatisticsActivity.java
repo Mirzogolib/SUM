@@ -402,7 +402,10 @@ public class StatisticsActivity extends AppCompatActivity
                 public void onResponse(Call<UploadObject> call, Response<UploadObject> response) {
                     Log.d(TAG, "ok");
                     progressDialog.dismiss();
-                    Log.d(TAG, "your image id "+ response.body().id);
+                    int it =  response.body().id;
+                    Glide.with(StatisticsActivity.this).load(response.body().getFile()).into(personPhoto);
+                    Log.d(TAG, "id is "+ it);
+
                 }
 
                 @Override
@@ -410,16 +413,7 @@ public class StatisticsActivity extends AppCompatActivity
                     t.printStackTrace();
                 }
             });
-//            retrofit2.Call<okhttp3.ResponseBody> req = service.postImage(body, name);
-//            req.enqueue(new Callback<ResponseBody>() {
-//                @Override
-//                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) { }
-//
-//                @Override
-//                public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                    t.printStackTrace();
-//                }
-//            });
+
         }
     }
 

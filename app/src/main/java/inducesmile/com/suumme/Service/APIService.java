@@ -52,6 +52,11 @@ public class APIService {
         return apiInterface.getProduct(token);
     }
 
+    public Call<ProductInfo> getProductCompany(String token, int id ){
+        SumInterface apiInterface = getClient().create(SumInterface.class);
+        return apiInterface.getProductCompany(token, id);
+    }
+
     public Call<ResultsProd> getProductById(String token, int id ){
         SumInterface apiInterface = getClient().create(SumInterface.class);
         return apiInterface.getProductById(token, id);

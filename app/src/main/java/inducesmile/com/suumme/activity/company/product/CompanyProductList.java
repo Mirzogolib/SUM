@@ -3,6 +3,8 @@ package inducesmile.com.suumme.activity.company.product;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -39,6 +41,8 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
     int idProfile;
     ProductFragmentCompany productFragmentCompany;
 
+
+
     public static CompanyProductList newInstance(String token, int idProfile) {
 
 
@@ -64,6 +68,16 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeView);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
+        FloatingActionButton fab = (FloatingActionButton)view.findViewById(R.id.fab);
+        fab.setVisibility(View.VISIBLE);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         listProductShop.setLayoutManager(layoutManager);
@@ -71,22 +85,16 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
         listProductShop.setAdapter(adapter);
 
 
-        apiService.getProduct(token).enqueue(new Callback<ProductInfo>() {
+        apiService.getProductCompany(token, idProfile).enqueue(new Callback<ProductInfo>() {
             @Override
             public void onResponse(Call<ProductInfo> call, Response<ProductInfo> response) {
                 Log.d(TAG, "Success in geting product");
                 listProductShop.setItemAnimator(new SlideInUpAnimator());
                 for (ResultsProd prod : response.body().getResults()) {
-                    int a =  prod.getUserInfoProduct().getIdOfCompany();
-                    if (a == idProfile) {
-                        Log.d(TAG, "company id " + a);
                         adapter.addNewItem(prod);
-                    }else {
-                        Log.d(TAG, "not entered with id "+a);
-                    }
+
 
                 }
-
             }
 
             @Override
@@ -95,6 +103,32 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
                 Log.d(TAG, "can not do :(");
             }
         });
+
+
+//        apiService.getProduct(token).enqueue(new Callback<ProductInfo>() {
+//            @Override
+//            public void onResponse(Call<ProductInfo> call, Response<ProductInfo> response) {
+//                Log.d(TAG, "Success in geting product");
+//                listProductShop.setItemAnimator(new SlideInUpAnimator());
+//                for (ResultsProd prod : response.body().getResults()) {
+//                    int a =  prod.getUserInfoProduct().getIdOfCompany();
+//                    if (a == idProfile) {
+//                        Log.d(TAG, "company id " + a);
+//                        adapter.addNewItem(prod);
+//                    }else {
+//                        Log.d(TAG, "not entered with id "+a);
+//                    }
+//
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ProductInfo> call, Throwable t) {
+//                Log.d(TAG, t.getMessage());
+//                Log.d(TAG, "can not do :(");
+//            }
+//        });
         return view;
     }
 
@@ -155,4 +189,8 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
 
         }
     };
+
+
+
+
 }

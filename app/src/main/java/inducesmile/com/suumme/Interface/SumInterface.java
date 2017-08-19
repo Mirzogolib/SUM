@@ -19,6 +19,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 
 public interface SumInterface {
@@ -34,6 +35,9 @@ public interface SumInterface {
 
     @GET("api/v1/product/")
     Call<ProductInfo> getProduct(@Header("Authorization") String token);
+
+    @GET("api/v1/product/")
+    Call<ProductInfo> getProductCompany(@Header("Authorization") String token, @Query("user") int id);
 
     @GET("api/v1/product/{id}")
     Call<ResultsProd> getProductById(@Header("Authorization") String token, @Path("id") int id );
