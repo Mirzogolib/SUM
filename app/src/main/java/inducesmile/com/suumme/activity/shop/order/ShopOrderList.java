@@ -3,6 +3,7 @@ package inducesmile.com.suumme.activity.shop.order;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -19,6 +20,7 @@ import inducesmile.com.suumme.ObjectClasses.Order;
 import inducesmile.com.suumme.ObjectClasses.OrderCompany;
 import inducesmile.com.suumme.R;
 import inducesmile.com.suumme.Service.APIService;
+import inducesmile.com.suumme.activity.company.order.OrderCreate;
 import inducesmile.com.suumme.activity.company.order.OrderFragmentCompany;
 import inducesmile.com.suumme.adapter.OrderAdapter;
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
@@ -38,6 +40,7 @@ public class ShopOrderList extends Fragment implements SwipeRefreshLayout.OnRefr
     OrderAdapter adapter;
     Context context;
     OrderFragmentCompany orderFragmentCompany;
+    OrderCreate orderCreate;
 
     public static ShopOrderList newInstance(String token) {
         ShopOrderList shopOrderList = new ShopOrderList();
@@ -63,6 +66,19 @@ public class ShopOrderList extends Fragment implements SwipeRefreshLayout.OnRefr
         listProductShop.setLayoutManager(layoutManager);
         adapter = new OrderAdapter(context, token, mListener);
         listProductShop.setAdapter(adapter);
+        FloatingActionButton fab = (FloatingActionButton)view.findViewById(R.id.fab1);
+        fab.setVisibility(View.VISIBLE);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "your token is" + token);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                orderCreate = OrderCreate.newInstane(token);
+                fragmentManager.beginTransaction().replace(R.id.frameLayout, orderCreate).addToBackStack( "tag1" ).commit();
+            }
+        });
+
+
         apiService.getOrder(token).enqueue(new Callback<OrderCompany>() {
             @Override
             public void onResponse(Call<OrderCompany> call, Response<OrderCompany> response) {

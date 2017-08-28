@@ -100,16 +100,7 @@ public class StatisticsActivity extends AppCompatActivity
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeView1);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        images = (Button) findViewById(R.id.buttonImage);
 
-
-//        images.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                updateImage();
-//            }
-//        });
 
         update.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,22 +118,21 @@ public class StatisticsActivity extends AppCompatActivity
 
                 idProfile = response.body().getId();
                 type = response.body().getUser_type();
-                //photo
+                //   PHOTO
                 if (response.body().getPhoto() == null) {
                     personPhoto.setImageResource(R.drawable.sum);
                 } else {
                     Glide.with(StatisticsActivity.this).load(response.body().getPhoto()).into(personPhoto);
-                    personPhoto.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent intent = new Intent();
-                            intent.setType("image/*");
-                            intent.setAction(Intent.ACTION_GET_CONTENT);
-                            startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE);
-                        }
-                    });
                 }
-
+                personPhoto.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent();
+                        intent.setType("image/*");
+                        intent.setAction(Intent.ACTION_GET_CONTENT);
+                        startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE);
+                    }
+                });
 
                 firstName.setText(response.body().getFirst_name());
                 firstNameText.setText(response.body().getFirst_name() + " " + response.body().getLast_name() + " " + response.body().getMiddle_name());
@@ -180,64 +170,6 @@ public class StatisticsActivity extends AppCompatActivity
 
     }
 
-//    private void updateImage() {
-////        Intent openGalleryIntent = new Intent(Intent.ACTION_PICK);
-////        openGalleryIntent.setType("image/*");
-////        startActivityForResult(openGalleryIntent, REQUEST_GALLERY_CODE);
-//
-//
-//        Intent intent = new Intent();
-//        intent.setType("image/*");
-//        intent.setAction(Intent.ACTION_GET_CONTENT);
-//        startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE);
-//
-////        String path = Environment.getExternalStorageDirectory().toString()+"media";
-////        File filew  = new File(path);
-////        RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
-////        MultipartBody.Part body = MultipartBody.Part.createFormData("upload", file.getName(), reqFile);
-////        String path = Environment.getExternalStorageDirectory().toString();
-////        Uri imageUri;
-////
-////        File file = new File("/storage/emulated/0/Download/1.jpg");
-////        RequestBody requestFile =RequestBody.create(MediaType.parse("multipart/form-data"), file);
-////        MultipartBody.Part body =
-////                MultipartBody.Part.createFormData("image", file.getName(), requestFile);
-//
-//        final ProgressDialog progressDialog;
-//        progressDialog = new ProgressDialog(StatisticsActivity.this);
-//        progressDialog.setMessage("Uploading...");
-//        progressDialog.show();
-//
-////        File file = new File("/storage/emulated/0/Download/1.jpg");
-////        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-////
-////        MultipartBody.Part body =
-////                MultipartBody.Part.createFormData("uploaded_file", file.getName(), requestFile);
-//
-//        File file = new File("/storage/emulated/0/Download/1.jpg");
-//
-//        RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
-//        MultipartBody.Part body = MultipartBody.Part.createFormData("upload", file.getName(), reqFile);
-//        RequestBody name = RequestBody.create(MediaType.parse("text/plain"), "upload_test");
-//
-//        apiService.uploadFile(token, body, name).enqueue(new Callback<ResponseBody>() {
-//            @Override
-//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                Log.d(TAG, "ok");
-//                progressDialog.dismiss();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ResponseBody> call, Throwable t) {
-//
-//            }
-//        });
-//
-//
-//    }
-
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -270,7 +202,11 @@ public class StatisticsActivity extends AppCompatActivity
 
         int id = item.getItemId();
 
-        if (id == R.id.nav_product) {
+        if(id==R.id.nav_home){
+            Intent intent = new Intent(this, StatisticsActivity.class);
+            intent.putExtra("token", token);
+            startActivity(intent);
+        }else if(id == R.id.nav_product) {
             setTitle("Product List");
             if (type.equals("0")) {
                 Log.d(TAG, "with id "+ idProfile);
@@ -297,9 +233,7 @@ public class StatisticsActivity extends AppCompatActivity
                 fragmentManager.beginTransaction().replace(R.id.frameLayout, fragmentShopOrder).commit();
             }
         } else if (id == R.id.nav_user) {
-            Intent intent = new Intent(this, UserInfoActivity.class);
-            intent.putExtra("token", token);
-            startActivity(intent);
+
         } else if (id == R.id.nav_logout) {
             userDB.delete();
             Intent intent = new Intent(this, MainActivity.class);
@@ -402,9 +336,24 @@ public class StatisticsActivity extends AppCompatActivity
                 public void onResponse(Call<UploadObject> call, Response<UploadObject> response) {
                     Log.d(TAG, "ok");
                     progressDialog.dismiss();
-                    int it =  response.body().id;
+                    String value = String.valueOf(response.body().getId());
                     Glide.with(StatisticsActivity.this).load(response.body().getFile()).into(personPhoto);
-                    Log.d(TAG, "id is "+ it);
+                    Log.d(TAG, "id is "+ value);
+                    final User user = new User();
+                    user.setPhoto(value);
+                    apiService = new APIService();
+                    apiService.updatePatch(token, idProfile, user).enqueue(new Callback<User>() {
+                        @Override
+                        public void onResponse(Call<User> call, Response<User> response) {
+                            Log.d(TAG, response.body().getPhoto());
+                        }
+
+                        @Override
+                        public void onFailure(Call<User> call, Throwable t) {
+
+                        }
+                    });
+
 
                 }
 

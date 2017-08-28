@@ -4,7 +4,6 @@ package inducesmile.com.suumme.activity.company.product;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -40,6 +39,7 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
     Context context;
     int idProfile;
     ProductFragmentCompany productFragmentCompany;
+    CreateProduct createProduct;
 
 
 
@@ -73,8 +73,10 @@ public class CompanyProductList extends Fragment implements SwipeRefreshLayout.O
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Log.d(TAG, "your token is" + token);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                createProduct = CreateProduct.newInstance(token);
+                fragmentManager.beginTransaction().replace(R.id.frameLayout, createProduct).addToBackStack( "tag1" ).commit();
             }
         });
 

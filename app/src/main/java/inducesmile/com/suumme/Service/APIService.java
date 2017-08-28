@@ -1,7 +1,10 @@
 package inducesmile.com.suumme.Service;
 
+import java.util.List;
+
 import inducesmile.com.suumme.Interface.SumInterface;
 import inducesmile.com.suumme.ObjectClasses.AllUsers;
+import inducesmile.com.suumme.ObjectClasses.ChoicesAll;
 import inducesmile.com.suumme.ObjectClasses.Order;
 import inducesmile.com.suumme.ObjectClasses.OrderCompany;
 import inducesmile.com.suumme.ObjectClasses.ProductInfo;
@@ -47,6 +50,12 @@ public class APIService {
         SumInterface apiInterface = getClient().create(SumInterface.class);
         return apiInterface.update(token, id, user);
     }
+
+    public Call<User> updatePatch(String token, int id, User user){
+        SumInterface apiInterface = getClient().create(SumInterface.class);
+        return apiInterface.updatePatch(token, id, user);
+    }
+
     public Call<ProductInfo> getProduct(String token ){
         SumInterface apiInterface = getClient().create(SumInterface.class);
         return apiInterface.getProduct(token);
@@ -60,6 +69,11 @@ public class APIService {
     public Call<ResultsProd> getProductById(String token, int id ){
         SumInterface apiInterface = getClient().create(SumInterface.class);
         return apiInterface.getProductById(token, id);
+    }
+
+    public Call<ResultsProd> createProduct(String token){
+        SumInterface apiInterface = getClient().create(SumInterface.class);
+        return apiInterface.createProduct(token);
     }
 
 
@@ -94,4 +108,8 @@ public class APIService {
         return apiInterface.uploadFile(token, file);
     }
 
+    public Call<ChoicesAll> getAllChoices(String token, List<String> array){
+        SumInterface apiInterface = getClient().create(SumInterface.class);
+        return apiInterface.getAllChoices(token, array);
+    }
 }
